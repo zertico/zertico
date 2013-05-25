@@ -5,6 +5,5 @@ rvm:
   - jruby
   - ree
 gemfile:
-  - gemfiles/Gemfile.rails3.0
   - gemfiles/Gemfile.rails3.1
   - gemfiles/Gemfile.rails3.2
