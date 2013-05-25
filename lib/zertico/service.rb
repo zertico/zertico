@@ -35,7 +35,7 @@ module Zertico
     end
 
     def interface_class
-      self.interface_name.constantize
+      self.interface_name.camelize.constantize
     end
   end
 end
