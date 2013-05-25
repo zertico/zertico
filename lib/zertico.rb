@@ -1,5 +1,7 @@
 require "zertico/version"
+require "active_support/core_ext/string"
 
 module Zertico
-  # Your code goes here...
+  autoload :Controller, "zertico/controller"
+  autoload :Service, "zertico/service"
 end
