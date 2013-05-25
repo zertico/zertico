@@ -8,6 +8,7 @@ module Zertico
       rescue NameError
         extend Zertico::Service
       end
+      super
     end
 
     def index
