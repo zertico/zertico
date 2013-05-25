@@ -1,5 +1,7 @@
+require "action_controller"
+
 module Zertico
-  class Controller
+  class Controller < ActionController::Base
     def initialize
       begin
         extend "::#{self.class.name.chomp("Controller").concat("Service")}".constantize
