@@ -17,13 +17,13 @@ module Zertico
     end
 
     def modify(id, attributes = {})
-      object = self.find(id)
+      object = self.find(id)[interface_name.to_sym]
       object.update_attributes(attributes)
       { interface_name.to_sym => object }
     end
 
     def delete(id)
-      object = self.find(id)
+      object = self.find(id)[interface_name.to_sym]
       object.destroy
       { interface_name.to_sym => object }
     end
@@ -31,7 +31,7 @@ module Zertico
     protected
 
     def interface_name
-      self.name.chomp("Service").underscore
+      self.class.name.chomp("Controller").singularize.underscore
     end
 
     def interface_class

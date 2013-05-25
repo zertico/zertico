@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Zertico::Service do
-  let(:controller) { Zertico::Controller.new }
+  let(:controller) { UserController.new }
   let(:object) { Object.new }
 
   context "#all" do
@@ -50,7 +50,7 @@ describe Zertico::Service do
 
   context "#modify" do
     before :each do
-      controller.stub(:find).with(1).and_return(object)
+      controller.stub(:find).with(1).and_return({ :user => object })
       object.stub(:update_attributes).with({}).and_return(true)
       controller.stub_chain(:interface_name, :to_sym).and_return(:user)
     end
@@ -62,7 +62,7 @@ describe Zertico::Service do
 
   context "#delete" do
     before :each do
-      controller.stub(:find).with(1).and_return(object)
+      controller.stub(:find).with(1).and_return({ :user => object })
       object.stub(:destroy).and_return(true)
       controller.stub_chain(:interface_name, :to_sym).and_return(:user)
     end
