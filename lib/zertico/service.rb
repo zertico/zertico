@@ -31,7 +31,7 @@ module Zertico
     protected
 
     def interface_name
-      self.class.name.chomp("Controller").singularize.underscore
+      self.class.name.chomp("Controller").split("::").last.singularize.underscore
     end
 
     def interface_class

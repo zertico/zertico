@@ -3,8 +3,6 @@ require "coveralls"
 
 Coveralls.wear!
 
-require File.dirname(__FILE__) + "/../lib/zertico"
+require "#{File.dirname(__FILE__)}/../lib/zertico"
 
-require File.dirname(__FILE__) + "/fake_app/user"
-require File.dirname(__FILE__) + "/fake_app/user_controller"
-require File.dirname(__FILE__) + "/fake_app/user_service"
+Dir["#{File.dirname(__FILE__)}/fake_app/**/*.rb"].sort.each { |f| require f }

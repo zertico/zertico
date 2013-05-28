@@ -2,7 +2,18 @@ require "spec_helper"
 
 describe Zertico::Service do
   let(:controller) { UserController.new }
+  let(:admin_controller) { Admin::UserController.new }
   let(:object) { Object.new }
+
+  context "should find the interface class" do
+    it "on a non namespaced controller" do
+      controller.send(:interface_class).should == User
+    end
+
+    it "on a namespaced controller" do
+      admin_controller.send(:interface_class).should == User
+    end
+  end
 
   context "#all" do
     before :each do
