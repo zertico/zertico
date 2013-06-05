@@ -1,5 +1,5 @@
 class User
   def name
-    "User Name"
+    'User Name'
   end
 end

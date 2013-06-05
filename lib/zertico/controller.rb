@@ -1,4 +1,4 @@
-require "action_controller"
+require 'action_controller'
 
 module Zertico
   class Controller < ActionController::Base

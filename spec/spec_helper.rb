@@ -1,5 +1,5 @@
-require "rspec"
-require "coveralls"
+require 'rspec'
+require 'coveralls'
 
 Coveralls.wear!
 
