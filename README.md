@@ -57,6 +57,13 @@ Your service must be a module and include Zertico::Service to grant access to al
 Then you will have to redefine all the methods you need. Each action of the controller is mapped to a method.
 The method has to return a hash. The key must be the name of the global variable you want to use on the views.
 
+Sometimes, the ActiveRecord models grow to much. It start to handle all kinds of logic. To make things simple,
+it should only concern about database access. To clean it, use the Zertico::Accessor. It is a wrapper that will
+pass all methods to the object unless the ones you overwrite. This way, is easy to start develop better models.
+
+By using Zertico::Controller and Zertico::Accessor, a great part of you project will be simple ruby classes.
+It means, better and simple tests, without depend on rails and any other external logic. =D
+
 ## Conventions
 
 To work with the gem, you will need to follow some conventions. Your model ( called interface here ) need to
@@ -69,6 +76,9 @@ end
 
 module UserService
     include Zertico::Service
+end
+
+class UserAccessor < Zertico::Accessor
 end
 
 class User < ActiveRecord::Base
