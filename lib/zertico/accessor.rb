@@ -5,8 +5,11 @@ module Zertico
     end
 
     def self.find(id)
-      instance_variable_set("@#{interface_name}", interface_class.find(id))
-      self
+      new(interface_class.find(id))
+    end
+
+    def interface
+      instance_variable_get("@#{interface_name}")
     end
 
     def method_missing(method_name, *args)
