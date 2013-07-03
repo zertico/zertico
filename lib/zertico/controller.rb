@@ -33,8 +33,8 @@ module Zertico
 
     def create
       initialize_object generate(params[interface_name.to_sym])
-      if instance_variable_defined?('@path')
-        respond_with(instance_variable_get('@responder'), :path => instance_variable_get('@path'))
+      if instance_variable_defined?('@location')
+        respond_with(instance_variable_get('@responder'), :location => instance_variable_get('@location'))
       else
         respond_with(instance_variable_get('@responder'))
       end
@@ -42,8 +42,8 @@ module Zertico
 
     def update
       initialize_object modify(params[:id], params[interface_name.to_sym])
-      if instance_variable_defined?('@path')
-        respond_with(instance_variable_get('@responder'), :path => instance_variable_get('@path'))
+      if instance_variable_defined?('@location')
+        respond_with(instance_variable_get('@responder'), :location => instance_variable_get('@location'))
       else
         respond_with(instance_variable_get('@responder'))
       end
@@ -51,8 +51,8 @@ module Zertico
 
     def destroy
       initialize_object delete(params[:id])
-      if instance_variable_defined?('@path')
-        respond_with(instance_variable_get('@responder'), :path => instance_variable_get('@path'))
+      if instance_variable_defined?('@location')
+        respond_with(instance_variable_get('@responder'), :location => instance_variable_get('@location'))
       else
         respond_with(instance_variable_get('@responder'))
       end
