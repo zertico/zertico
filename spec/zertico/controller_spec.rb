@@ -20,9 +20,22 @@ describe Zertico::Controller do
     end
   end
 
+  context 'with a custom object to respond' do
+    before :each do
+      controller.stub(:all).and_return({ :user => 'user', :responder => 'admin' })
+      controller.stub(:respond_with)
+      controller.index
+    end
+
+    it 'should intialize an object with it' do
+      controller.instance_variable_get('@responder').should == 'admin'
+    end
+  end
+
   context '#index' do
     before :each do
       controller.stub(:all).and_return({ :user => 'user' })
+      controller.stub(:respond_with)
       controller.index
     end
 
@@ -34,6 +47,7 @@ describe Zertico::Controller do
   context '#new' do
     before :each do
       controller.stub(:build).and_return({ :user => 'user' })
+      controller.stub(:respond_with)
       controller.new
     end
 
@@ -46,6 +60,7 @@ describe Zertico::Controller do
     before :each do
       controller.stub(:params).and_return({ :id => 1 })
       controller.stub(:find).and_return({ :user => 'user' })
+      controller.stub(:respond_with)
       controller.show
     end
 
@@ -58,6 +73,7 @@ describe Zertico::Controller do
     before :each do
       controller.stub(:params).and_return({ :id => 1 })
       controller.stub(:find).and_return({ :user => 'user' })
+      controller.stub(:respond_with)
       controller.edit
     end
 
