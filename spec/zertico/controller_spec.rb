@@ -32,6 +32,20 @@ describe Zertico::Controller do
     end
   end
 
+  context 'with a custom path to redirect' do
+    before :each do
+      controller.stub_chain(:interface_name, :to_sym).and_return(:user)
+      controller.stub(:params).and_return({ :user => 'user' })
+      controller.stub(:generate => { :user => 'user', :path => 'admin_path' } )
+      controller.stub(:respond_with)
+      controller.create
+    end
+
+    it 'should intialize an object with it' do
+      controller.instance_variable_get('@path').should == 'admin_path'
+    end
+  end
+
   context '#index' do
     before :each do
       controller.stub(:all).and_return({ :user => 'user' })
