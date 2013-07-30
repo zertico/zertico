@@ -31,11 +31,15 @@ module Zertico
     protected
 
     def interface_name
-      self.class.name.chomp('Controller').split('::').last.singularize.underscore
+      self.interface_class.name.singularize.underscore
     end
 
     def interface_class
-      self.interface_name.camelize.constantize
+      begin
+        self.class.name.chomp('Controller').constantize
+      rescue NameError
+        self.class.name.chomp('Controller').split('::').last.constantize
+      end
     end
   end
 end
