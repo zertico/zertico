@@ -27,7 +27,7 @@ module Zertico
     protected
 
     def self.interface_name
-      self.interface_class.name.singularize.underscore
+      self.interface_class.name.split('::').last.singularize.underscore
     end
 
     def self.interface_class

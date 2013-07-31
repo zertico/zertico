@@ -8,17 +8,29 @@ describe Zertico::Accessor do
     it 'should find the interface model' do
       Person::ProfileAccessor.send(:interface_class).should == Person::Profile
     end
+
+    it 'should return a valid instance variable name' do
+      Person::ProfileAccessor.send(:interface_name).should == 'profile'
+    end
   end
 
   context 'on a namespaced accessor and non namespaced interface model' do
     it 'should find the interface model' do
       Admin::UserAccessor.send(:interface_class).should == User
     end
+
+    it 'should return a valid instance variable name' do
+      Admin::UserAccessor.send(:interface_name).should == 'user'
+    end
   end
 
   context 'on a non namespaced accessor and non namespaced interface model' do
     it 'should find the interface model' do
       UserAccessor.send(:interface_class).should == User
+    end
+
+    it 'should return a valid instance variable name' do
+      UserAccessor.send(:interface_name).should == 'user'
     end
   end
 
