@@ -4,9 +4,21 @@ describe Zertico::Accessor do
   let(:user) { User.new }
   let(:user_accessor) { UserAccessor.new(user) }
 
-  describe '.initialize' do
-    it 'should initialize the interface object on a instance variable' do
-      UserAccessor.new(user).instance_variable_get('@user').should == user
+  context 'on a namespaced accessor and interface model' do
+    it 'should find the interface model' do
+      Person::ProfileAccessor.send(:interface_class).should == Person::Profile
+    end
+  end
+
+  context 'on a namespaced accessor and non namespaced interface model' do
+    it 'should find the interface model' do
+      Admin::UserAccessor.send(:interface_class).should == User
+    end
+  end
+
+  context 'on a non namespaced accessor and non namespaced interface model' do
+    it 'should find the interface model' do
+      UserAccessor.send(:interface_class).should == User
     end
   end
 

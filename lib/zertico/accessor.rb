@@ -27,19 +27,23 @@ module Zertico
     protected
 
     def self.interface_name
-      self.name.chomp('Accessor').singularize.underscore
-    end
-
-    def interface_name
-      self.class.name.chomp('Accessor').singularize.underscore
+      self.interface_class.name.singularize.underscore
     end
 
     def self.interface_class
-      self.interface_name.camelize.constantize
+      begin
+        self.name.chomp('Accessor').constantize
+      rescue NameError
+        self.name.chomp('Accessor').split('::').last.constantize
+      end
+    end
+
+    def interface_name
+      self.class.interface_name
     end
 
     def interface_class
-      self.interface_name.camelize.constantize
+      self.class.interface_class
     end
   end
 end
