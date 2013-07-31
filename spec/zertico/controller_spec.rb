@@ -112,8 +112,8 @@ describe Zertico::Controller do
 
   context '#update' do
     before :each do
-      controller.stub(:interface_name, :to_sym).and_return(:user)
-      controller.stub(:params).and_return({:id => 1, :user => 'user' })
+      controller.stub_chain(:interface_name, :to_sym).and_return(:user)
+      controller.stub(:params).and_return({ :id => 1, :user => 'user' })
       controller.stub(:modify => { :user => 'user' })
       controller.stub(:respond_with)
       controller.update
