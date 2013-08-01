@@ -48,7 +48,7 @@ class UsersController < ApplicationController
 ```
 
 ```ruby
-module UserService
+module UsersService
     include Zertico::Service
 end
 ```
@@ -71,10 +71,10 @@ have the same name of your controller, without the 'Controller' substring. The S
 'Controller' substring with 'Service' like:
 
 ```ruby
-class UserController < Zertico::Controller
+class UsersController < Zertico::Controller
 end
 
-module UserService
+module UsersService
     include Zertico::Service
 end
 
@@ -93,7 +93,7 @@ It is good to put the services on a separate folder called services.
 
 [@mfbmina](https://github.com/mfbmina)
 
-[@silviolrjunio](https://github.com/silviolrjunior)
+[@silviolrjunior](https://github.com/silviolrjunior)
 
 ## Contributing
 
