@@ -36,9 +36,9 @@ module Zertico
 
     def interface_class
       begin
-        self.class.name.chomp('Controller').constantize
+        self.class.name.chomp('Controller').singularize.constantize
       rescue NameError
-        self.class.name.chomp('Controller').split('::').last.constantize
+        self.class.name.chomp('Controller').split('::').last.singularize.constantize
       end
     end
   end

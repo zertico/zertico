@@ -5,6 +5,16 @@ describe Zertico::Service do
   let(:admin_controller) { Admin::UserController.new }
   let(:profile_controller) { Person::ProfileController.new }
   let(:object) { Object.new }
+  let(:pluralized_controller) { UsersController.new }
+
+  context 'on a pluralized name controller' do
+    it 'should find the interface model' do
+      pluralized_controller.send(:interface_name).should == 'user'
+    end
+    it 'should find the interface class' do
+      pluralized_controller.send(:interface_class).should == User
+    end
+  end
 
   context 'on a namespaced controller and interface model' do
     it 'should find the interface model' do
