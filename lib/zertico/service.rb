@@ -1,19 +1,19 @@
 module Zertico
   module Service
     def all
-      { interface_name.pluralize.to_sym => interface_class.all }
+      { interface_name.pluralize.to_sym => resource.all }
     end
 
     def build
-      { interface_name.to_sym => interface_class.new }
+      { interface_name.to_sym => resource.new }
     end
 
     def find(id)
-      { interface_name.to_sym => interface_class.find(id) }
+      { interface_name.to_sym => resource.find(id) }
     end
 
     def generate(attributes = {})
-      { interface_name.to_sym => interface_class.create(attributes) }
+      { interface_name.to_sym => resource.create(attributes) }
     end
 
     def modify(id, attributes = {})
@@ -26,6 +26,18 @@ module Zertico
       object = self.find(id)[interface_name.to_sym]
       object.destroy
       { interface_name.to_sym => object }
+    end
+
+    def resource
+      @resource ||= interface_class
+    end
+
+    def resource=(resource_chain = [])
+      @resource = resource_chain.shift
+      @resource = @resource.constantize if @resource.respond_to?(:constantize)
+      resource_chain.each do |resource|
+        @resource = @resource.send(resource)
+      end
     end
 
     protected

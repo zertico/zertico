@@ -5,14 +5,11 @@ describe Zertico::Service do
   let(:admin_controller) { Admin::UserController.new }
   let(:profile_controller) { Person::ProfileController.new }
   let(:object) { Object.new }
-  let(:pluralized_controller) { UsersController.new }
+  let(:users_controller) { UsersController.new }
 
-  context 'on a pluralized name controller' do
+  context 'on a pluralized controller' do
     it 'should find the interface model' do
-      pluralized_controller.send(:interface_name).should == 'user'
-    end
-    it 'should find the interface class' do
-      pluralized_controller.send(:interface_class).should == User
+      users_controller.send(:interface_class).should == User
     end
   end
 
@@ -99,6 +96,39 @@ describe Zertico::Service do
 
     it 'should return the destroyed object' do
       controller.delete(1).should == { :person => object }
+    end
+  end
+
+  context '#resource' do
+    context 'with no resource defined' do
+      before :each do
+        controller.stub(:interface_class => User)
+      end
+
+      it 'should return the resource' do
+        controller.resource.should == User
+      end
+    end
+
+    context 'with a resource defined' do
+      before :each do
+        controller.resource = %w(Person::Profile)
+      end
+
+      it 'should return the resource' do
+        controller.resource.should == Person::Profile
+      end
+    end
+  end
+
+  context '#resource=' do
+    before :each do
+      User.stub(:all => [ object ])
+      controller.resource = %w(User all)
+    end
+
+    it 'should set the resource' do
+      controller.resource.should == [ object ]
     end
   end
 end
