@@ -3,6 +3,19 @@ require 'spec_helper'
 describe Zertico::Controller do
   let(:controller) { Zertico::Controller.new }
   let(:user_controller) { UserController.new }
+  let(:admin_controller) { Admin::UserController.new }
+
+  context 'not being nested' do
+    it 'should find on the correct id' do
+      user_controller.send(:interface_id).should  == 'id'
+    end
+  end
+
+  context 'being nested' do
+    it 'should find on the correct id' do
+      admin_controller.send(:interface_id).should  == 'user_id'
+    end
+  end
 
   context 'without a custom service' do
     it 'should extend Zertico::Service' do

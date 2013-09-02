@@ -42,6 +42,11 @@ module Zertico
 
     protected
 
+    def interface_id
+      return "#{interface_name}_id" if self.class.name.chomp('Controller').split('::').size > 1
+      'id'
+    end
+
     def interface_name
       self.interface_class.name.singularize.underscore
     end

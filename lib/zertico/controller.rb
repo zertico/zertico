@@ -22,12 +22,12 @@ module Zertico
     end
 
     def show
-      initialize_object find(params[:id])
+      initialize_object find(params[interface_id.to_sym])
       respond_with(instance_variable_get('@responder'))
     end
 
     def edit
-      initialize_object find(params[:id])
+      initialize_object find(params[interface_id.to_sym])
       respond_with(instance_variable_get('@responder'))
     end
 
@@ -41,7 +41,7 @@ module Zertico
     end
 
     def update
-      initialize_object modify(params[:id], params[interface_name.to_sym])
+      initialize_object modify(params[interface_id.to_sym], params[interface_name.to_sym])
       if instance_variable_defined?('@location')
         respond_with(instance_variable_get('@responder'), :location => instance_variable_get('@location'))
       else
@@ -50,7 +50,7 @@ module Zertico
     end
 
     def destroy
-      initialize_object delete(params[:id])
+      initialize_object delete(params[interface_id.to_sym])
       if instance_variable_defined?('@location')
         respond_with(instance_variable_get('@responder'), :location => instance_variable_get('@location'))
       else
