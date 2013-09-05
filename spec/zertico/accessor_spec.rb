@@ -57,7 +57,7 @@ describe Zertico::Accessor do
 
   describe '#method_missing' do
     it 'should pass the method to the interface model if it responds to it' do
-      UserAccessor.new(user).should respond_to(:name)
+      user_accessor.should respond_to(:full_name)
     end
   end
 end

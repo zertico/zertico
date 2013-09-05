@@ -13,14 +13,14 @@ module Zertico
     end
 
     def method_missing(method_name, *args)
-      if instance_variable_get("@#{interface_name}").respond_to?(method_name)
-        return instance_variable_get("@#{interface_name}").send(method_name, *args)
+      if interface.respond_to?(method_name)
+        return interface.send(method_name, *args)
       end
       super
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      return true if interface_class.respond_to?(method_name)
+      return true if interface.respond_to?(method_name)
       super
     end
 
