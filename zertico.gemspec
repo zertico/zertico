@@ -9,12 +9,13 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Paulo Henrique Lopes Ribeiro']
   gem.email         = ['plribeiro3000@gmail.com']
   gem.description   = %q{Easy Rails development using the Zertico Way}
-  gem.summary       = %q{Models and patterns used by Zertico}
+  gem.summary       = %q{Models and patterns used by Zertico to achieve greater agility}
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features|gemfiles)/})
-  gem.require_paths = ['lib']
+  gem.require_paths = %w(lib)
 
   gem.add_runtime_dependency 'rails', '>= 3.0.0'
   gem.add_development_dependency 'rspec'
