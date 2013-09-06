@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = "zertico"
   gem.version       = Zertico::VERSION
   gem.authors       = ['Paulo Henrique Lopes Ribeiro']
-  gem.email         = ['plribeiro3000@gmail.com']
+  gem.email         = %w(plribeiro3000@gmail.com)
   gem.description   = %q{Easy Rails development using the Zertico Way}
   gem.summary       = %q{Models and patterns used by Zertico to achieve greater agility}
   gem.license       = 'MIT'
@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'coveralls'
   gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'pry-debugger'
 end
