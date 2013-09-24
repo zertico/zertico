@@ -1,31 +1,39 @@
 module Zertico
   module Service
     def all
-      { interface_name.pluralize.to_sym => resource.all }
+      @responder = resource.all
+      instance_variable_set("@#{interface_name.pluralize}", @responder)
+      @options = {}
     end
 
     def build
-      { interface_name.to_sym => resource.new }
+      @responder = resource.new
+      instance_variable_set("@#{interface_name}", @responder)
+      @options = {}
     end
 
-    def find(id)
-      { interface_name.to_sym => resource.find(id) }
+    def find
+      @responder = resource.find(params[interface_id.to_sym])
+      instance_variable_set("@#{interface_name}", @responder)
+      @options = {}
     end
 
-    def generate(attributes = {})
-      { interface_name.to_sym => resource.create(attributes) }
+    def generate
+      @responder = resource.create(params[interface_name.to_sym])
+      instance_variable_set("@#{interface_name}", @responder)
+      @options = {}
     end
 
-    def modify(id, attributes = {})
-      object = self.find(id)[interface_name.to_sym]
-      object.update_attributes(attributes)
-      { interface_name.to_sym => object }
+    def modify
+      find
+      @responder.update_attributes(params[interface_name.to_sym])
+      @options = {}
     end
 
-    def delete(id)
-      object = self.find(id)[interface_name.to_sym]
-      object.destroy
-      { interface_name.to_sym => object }
+    def delete
+      find
+      @responder.destroy
+      @options = {}
     end
 
     def resource
