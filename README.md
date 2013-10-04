@@ -55,8 +55,8 @@ end
 
 Your service must be a module and include Zertico::Service to grant access to all the methods already defined.
 Then you will have to redefine all the methods you need. Each action of the controller is mapped to a method.
-The method has initialize two instance variables: @responder and @options. @responder it the object to send to respond_with
-and @options are thw options to pass to respond_with, default to blank hash {}.
+The return of the method will be passed to respond_with.
+You can pass extra options to respond_with by defining @options, default to blank hash {}.
 
 Sometimes, the ActiveRecord models grow to much. It start to handle all kinds of logic. To make things simple,
 it should only concern about database access. To clean it, use the Zertico::Accessor. It is a wrapper that will
