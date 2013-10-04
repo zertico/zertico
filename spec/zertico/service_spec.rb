@@ -127,24 +127,24 @@ describe Zertico::Service do
     end
   end
 
-  context '#resource' do
+  context '#resource_source' do
     context 'with no resource defined' do
       before :each do
         controller.stub(:interface_class => User)
       end
 
       it 'should return the resource' do
-        controller.resource.should == User
+        controller.resource_source.should == User
       end
     end
 
     context 'with a resource defined' do
       before :each do
-        controller.resource = %w(Person::Profile)
+        controller.resource_source = %w(Person::Profile)
       end
 
       it 'should return the resource' do
-        controller.resource.should == Person::Profile
+        controller.resource_source.should == Person::Profile
       end
     end
   end
@@ -152,11 +152,11 @@ describe Zertico::Service do
   context '#resource=' do
     before :each do
       User.stub(:all => [ object ])
-      controller.resource = %w(User all)
+      controller.resource_source = %w(User all)
     end
 
     it 'should set the resource' do
-      controller.resource.should == [ object ]
+      controller.resource_source.should == [ object ]
     end
   end
 end

@@ -1,19 +1,19 @@
 module Zertico
   module Service
     def all
-      instance_variable_set("@#{interface_name.pluralize}", resource.all)
+      instance_variable_set("@#{interface_name.pluralize}", resource_source.all)
     end
 
     def build
-      instance_variable_set("@#{interface_name}", resource.new)
+      instance_variable_set("@#{interface_name}", resource_source.new)
     end
 
     def find
-      instance_variable_set("@#{interface_name}", resource.find(params[interface_id.to_sym]))
+      instance_variable_set("@#{interface_name}", resource_source.find(params[interface_id.to_sym]))
     end
 
     def generate
-      instance_variable_set("@#{interface_name}", resource.create(params[interface_name.to_sym]))
+      instance_variable_set("@#{interface_name}", resource_source.create(params[interface_name.to_sym]))
     end
 
     def modify
@@ -28,15 +28,15 @@ module Zertico
       instance_variable_get("@#{interface_name}")
     end
 
-    def resource
-      @resource_object ||= interface_class
+    def resource_source
+      @resource_source ||= interface_class
     end
 
-    def resource=(resource_chain = [])
-      @resource_object = resource_chain.shift
-      @resource_object = @resource_object.constantize if @resource_object.respond_to?(:constantize)
+    def resource_source=(resource_chain = [])
+      @resource_source = resource_chain.shift
+      @resource_source = @resource_source.constantize if @resource_source.respond_to?(:constantize)
       resource_chain.each do |resource|
-        @resource_object = @resource_object.send(resource)
+        @resource_source = @resource_source.send(resource)
       end
     end
 
