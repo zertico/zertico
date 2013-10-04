@@ -1,39 +1,31 @@
 module Zertico
   module Service
     def all
-      @responder = resource.all
-      instance_variable_set("@#{interface_name.pluralize}", @responder)
-      @options = {}
+      instance_variable_set("@#{interface_name.pluralize}", resource.all)
     end
 
     def build
-      @responder = resource.new
-      instance_variable_set("@#{interface_name}", @responder)
-      @options = {}
+      instance_variable_set("@#{interface_name}", resource.new)
     end
 
     def find
-      @responder = resource.find(params[interface_id.to_sym])
-      instance_variable_set("@#{interface_name}", @responder)
-      @options = {}
+      instance_variable_set("@#{interface_name}", resource.find(params[interface_id.to_sym]))
     end
 
     def generate
-      @responder = resource.create(params[interface_name.to_sym])
-      instance_variable_set("@#{interface_name}", @responder)
-      @options = {}
+      instance_variable_set("@#{interface_name}", resource.create(params[interface_name.to_sym]))
     end
 
     def modify
       find
-      @responder.update_attributes(params[interface_name.to_sym])
-      @options = {}
+      instance_variable_get("@#{interface_name}").update_attributes(params[interface_name.to_sym])
+      instance_variable_get("@#{interface_name}")
     end
 
     def delete
       find
-      @responder.destroy
-      @options = {}
+      instance_variable_get("@#{interface_name}").destroy
+      instance_variable_get("@#{interface_name}")
     end
 
     def resource

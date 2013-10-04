@@ -41,12 +41,8 @@ describe Zertico::Service do
       controller.instance_variable_get('@users').should == []
     end
 
-    it 'should save the object on an instance variable to respond' do
-      controller.instance_variable_get('@responder').should == []
-    end
-
-    it 'should save a hash with options on an instance variable' do
-      controller.instance_variable_get('@options').should == {}
+    it 'should return a collection' do
+      controller.all.should == []
     end
   end
 
@@ -59,13 +55,9 @@ describe Zertico::Service do
     it 'should save an object on an instance variable' do
       controller.instance_variable_get('@user').should == object
     end
-    
-    it 'should save the object on an instance variable to respond' do
-      controller.instance_variable_get('@responder').should == object
-    end
 
-    it 'should save a hash with options on an instance variable' do
-      controller.instance_variable_get('@options').should == {}
+    it 'should return an object' do
+      controller.build.should == object
     end
   end
 
@@ -80,12 +72,8 @@ describe Zertico::Service do
       controller.instance_variable_get('@user').should == object
     end
 
-    it 'should save the object on an instance variable to respond' do
-      controller.instance_variable_get('@responder').should == object
-    end
-
-    it 'should save a hash with options on an instance variable' do
-      controller.instance_variable_get('@options').should == {}
+    it 'should return an object' do
+      controller.find.should == object
     end
   end
 
@@ -100,12 +88,8 @@ describe Zertico::Service do
       controller.instance_variable_get('@user').should == object
     end
 
-    it 'should save the object on an instance variable to respond' do
-      controller.instance_variable_get('@responder').should == object
-    end
-
-    it 'should save a hash with options on an instance variable' do
-      controller.instance_variable_get('@options').should == {}
+    it 'should return an object' do
+      controller.generate.should == object
     end
   end
 
@@ -121,12 +105,8 @@ describe Zertico::Service do
       controller.instance_variable_get('@user').should == object
     end
 
-    it 'should save the object on an instance variable to respond' do
-      controller.instance_variable_get('@responder').should == object
-    end
-
-    it 'should save a hash with options on an instance variable' do
-      controller.instance_variable_get('@options').should == {}
+    it 'should return an object' do
+      controller.modify.should == object
     end
   end
 
@@ -142,12 +122,8 @@ describe Zertico::Service do
       controller.instance_variable_get('@user').should == object
     end
 
-    it 'should save the object on an instance variable to respond' do
-      controller.instance_variable_get('@responder').should == object
-    end
-
-    it 'should save a hash with options on an instance variable' do
-      controller.instance_variable_get('@options').should == {}
+    it 'should return an object' do
+      controller.delete.should == object
     end
   end
 

@@ -35,14 +35,13 @@ describe Zertico::Controller do
 
   context 'actions' do
     before :each do
-      controller.instance_variable_set('@responder', 'responder')
       controller.instance_variable_set('@options', 'options')
       controller.stub(:respond_with).with('responder', 'options')
     end
 
     context '#index' do
       before :each do
-        controller.stub(:all)
+        controller.stub(:all => 'responder')
       end
 
       after :each do
@@ -60,7 +59,7 @@ describe Zertico::Controller do
 
     context '#new' do
       before :each do
-        controller.stub(:build)
+        controller.stub(:build => 'responder')
       end
 
       after :each do
@@ -78,7 +77,7 @@ describe Zertico::Controller do
 
     context '#show' do
       before :each do
-        controller.stub(:find)
+        controller.stub(:find => 'responder')
       end
 
       after :each do
@@ -96,7 +95,7 @@ describe Zertico::Controller do
 
     context '#edit' do
       before :each do
-        controller.stub(:find)
+        controller.stub(:find => 'responder')
       end
 
       after :each do
@@ -114,7 +113,7 @@ describe Zertico::Controller do
 
     context '#create' do
       before :each do
-        controller.stub(:generate)
+        controller.stub(:generate => 'responder')
       end
 
       after :each do
@@ -132,7 +131,7 @@ describe Zertico::Controller do
 
     context '#update' do
       before :each do
-        controller.stub(:modify)
+        controller.stub(:modify => 'responder')
       end
 
       after :each do
@@ -150,7 +149,7 @@ describe Zertico::Controller do
 
     context '#destroy' do
       before :each do
-        controller.stub(:delete)
+        controller.stub(:delete => 'responder')
       end
 
       after :each do

@@ -12,38 +12,35 @@ module Zertico
     end
 
     def index
-      all
-      respond_with(@responder, @options)
+      respond_with(all, options)
     end
 
     def new
-      build
-      respond_with(@responder, @options)
+      respond_with(build, options)
     end
 
     def show
-      find
-      respond_with(@responder, @options)
+      respond_with(find, options)
     end
 
     def edit
-      find
-      respond_with(@responder, @options)
+      respond_with(find, options)
     end
 
     def create
-      generate
-      respond_with(@responder, @options)
+      respond_with(generate, options)
     end
 
     def update
-      modify
-      respond_with(@responder, @options)
+      respond_with(modify, options)
     end
 
     def destroy
-      delete
-      respond_with(@responder, @options)
+      respond_with(delete, options)
+    end
+
+    def options
+      @options || {}
     end
   end
 end
