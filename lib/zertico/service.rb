@@ -29,21 +29,25 @@ module Zertico
     end
 
     def resource
-      @resource ||= interface_class
+      @resource_object ||= interface_class
     end
 
     def resource=(resource_chain = [])
-      @resource = resource_chain.shift
-      @resource = @resource.constantize if @resource.respond_to?(:constantize)
+      @resource_object = resource_chain.shift
+      @resource_object = @resource_object.constantize if @resource_object.respond_to?(:constantize)
       resource_chain.each do |resource|
-        @resource = @resource.send(resource)
+        @resource_object = @resource_object.send(resource)
       end
     end
 
     protected
 
     def interface_id
-      return "#{interface_name}_id" if self.class.name.chomp('Controller').split('::').size > 1
+      begin
+        return "#{interface_name}_id" if self.class.name.chomp('Controller').split('::').size > 1
+      rescue NameError
+        'id'
+      end
       'id'
     end
 
