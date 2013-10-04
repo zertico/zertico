@@ -33,69 +33,121 @@ describe Zertico::Service do
 
   context '#all' do
     before :each do
-      controller.stub_chain(:interface_name, :pluralize, :to_sym).and_return(:users)
-      controller.stub_chain(:interface_class, :all).and_return([])
+      User.stub(:all => [])
+      controller.all
     end
 
-    it 'should return a collection of objects' do
-      controller.all.should == { :users => [] }
+    it 'should save a collection on an instance variable' do
+      controller.instance_variable_get('@users').should == []
+    end
+
+    it 'should save the object on an instance variable to respond' do
+      controller.instance_variable_get('@responder').should == []
+    end
+
+    it 'should save a hash with options on an instance variable' do
+      controller.instance_variable_get('@options').should == {}
     end
   end
 
   context '#build' do
     before :each do
-      controller.stub_chain(:interface_name, :to_sym).and_return(:person)
-      controller.stub_chain(:interface_class, :new).and_return(object)
+      User.stub(:new => object)
+      controller.build
     end
 
-    it 'should return a new object' do
-      controller.build.should == { :person => object }
+    it 'should save an object on an instance variable' do
+      controller.instance_variable_get('@user').should == object
+    end
+    
+    it 'should save the object on an instance variable to respond' do
+      controller.instance_variable_get('@responder').should == object
+    end
+
+    it 'should save a hash with options on an instance variable' do
+      controller.instance_variable_get('@options').should == {}
     end
   end
 
   context '#find' do
     before :each do
-      controller.stub_chain(:interface_name, :to_sym).and_return(:person)
-      controller.stub_chain(:interface_class, :find).with(1).and_return(object)
+      User.stub(:find => object)
+      controller.stub(:params => { :id => 1 })
+      controller.find
     end
 
-    it 'should return the specified object' do
-      controller.find(1).should == { :person => object }
+    it 'should save an object on an instance variable' do
+      controller.instance_variable_get('@user').should == object
+    end
+
+    it 'should save the object on an instance variable to respond' do
+      controller.instance_variable_get('@responder').should == object
+    end
+
+    it 'should save a hash with options on an instance variable' do
+      controller.instance_variable_get('@options').should == {}
     end
   end
 
   context '#generate' do
     before :each do
-      controller.stub_chain(:interface_name, :to_sym).and_return(:person)
-      controller.stub_chain(:interface_class, :create).with({}).and_return(object)
+      User.stub(:create => object)
+      controller.stub(:params => { :user => {} })
+      controller.generate
     end
 
-    it 'should return the created object' do
-      controller.generate({}).should == { :person => object }
+    it 'should save an object on an instance variable' do
+      controller.instance_variable_get('@user').should == object
+    end
+
+    it 'should save the object on an instance variable to respond' do
+      controller.instance_variable_get('@responder').should == object
+    end
+
+    it 'should save a hash with options on an instance variable' do
+      controller.instance_variable_get('@options').should == {}
     end
   end
 
   context '#modify' do
     before :each do
-      controller.stub(:find).with(1).and_return({ :person => object })
+      User.stub(:find => object)
+      controller.stub(:params => { :id => 1, :user => {} })
       object.stub(:update_attributes).with({}).and_return(true)
-      controller.stub_chain(:interface_name, :to_sym).and_return(:person)
+      controller.modify
     end
 
-    it 'should return the updated object' do
-      controller.modify(1, {}).should == { :person => object }
+    it 'should save an object on an instance variable' do
+      controller.instance_variable_get('@user').should == object
+    end
+
+    it 'should save the object on an instance variable to respond' do
+      controller.instance_variable_get('@responder').should == object
+    end
+
+    it 'should save a hash with options on an instance variable' do
+      controller.instance_variable_get('@options').should == {}
     end
   end
 
   context '#delete' do
     before :each do
-      controller.stub(:find).with(1).and_return({ :person => object })
-      object.stub(:destroy).and_return(true)
-      controller.stub_chain(:interface_name, :to_sym).and_return(:person)
+      User.stub(:find => object)
+      controller.stub(:params => { :id => 1 })
+      object.stub(:destroy => true)
+      controller.delete
     end
 
-    it 'should return the destroyed object' do
-      controller.delete(1).should == { :person => object }
+    it 'should save an object on an instance variable' do
+      controller.instance_variable_get('@user').should == object
+    end
+
+    it 'should save the object on an instance variable to respond' do
+      controller.instance_variable_get('@responder').should == object
+    end
+
+    it 'should save a hash with options on an instance variable' do
+      controller.instance_variable_get('@options').should == {}
     end
   end
 

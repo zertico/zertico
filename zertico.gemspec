@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = "zertico"
   gem.version       = Zertico::VERSION
   gem.authors       = ['Paulo Henrique Lopes Ribeiro']
-  gem.email         = ['plribeiro3000@gmail.com']
+  gem.email         = %w(plribeiro3000@gmail.com)
   gem.description   = %q{Easy Rails development using the Zertico Way}
   gem.summary       = %q{Models and patterns used by Zertico to achieve greater agility}
   gem.license       = 'MIT'

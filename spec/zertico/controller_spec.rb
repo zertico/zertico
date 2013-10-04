@@ -33,120 +33,137 @@ describe Zertico::Controller do
     end
   end
 
-  context 'with a custom object to respond' do
+  context 'actions' do
     before :each do
-      controller.stub(:all).and_return({ :user => 'user', :responder => 'admin' })
-      controller.stub(:respond_with)
-      controller.index
+      controller.instance_variable_set('@responder', 'responder')
+      controller.instance_variable_set('@options', 'options')
+      controller.stub(:respond_with).with('responder', 'options')
     end
 
-    it 'should intialize an object with it' do
-      controller.instance_variable_get('@responder').should == 'admin'
-    end
-  end
+    context '#index' do
+      before :each do
+        controller.stub(:all)
+      end
 
-  context 'with a custom location to redirect' do
-    before :each do
-      controller.stub_chain(:interface_name, :to_sym).and_return(:user)
-      controller.stub(:params).and_return({ :user => 'user' })
-      controller.stub(:generate => { :user => 'user', :location => 'admin_location' } )
-      controller.stub(:respond_with)
-      controller.create
-    end
+      after :each do
+        controller.index
+      end
 
-    it 'should intialize an object with it' do
-      controller.instance_variable_get('@location').should == 'admin_location'
-    end
-  end
+      it 'should initialize a collection of objects' do
+        controller.should_receive(:all)
+      end
 
-  context '#index' do
-    before :each do
-      controller.stub(:all).and_return({ :user => 'user' })
-      controller.stub(:respond_with)
-      controller.index
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
     end
 
-    it 'should initialize a collection of objects' do
-      controller.instance_variable_get('@user').should == 'user'
-    end
-  end
+    context '#new' do
+      before :each do
+        controller.stub(:build)
+      end
 
-  context '#new' do
-    before :each do
-      controller.stub(:build).and_return({ :user => 'user' })
-      controller.stub(:respond_with)
-      controller.new
-    end
+      after :each do
+        controller.new
+      end
 
-    it 'should initialize an object' do
-      controller.instance_variable_get('@user').should == 'user'
-    end
-  end
+      it 'should initialize an object' do
+        controller.should_receive(:build)
+      end
 
-  context '#show' do
-    before :each do
-      controller.stub(:params).and_return({ :id => 1 })
-      controller.stub(:find).and_return({ :user => 'user' })
-      controller.stub(:respond_with)
-      controller.show
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
     end
 
-    it 'should initialize an object' do
-      controller.instance_variable_get('@user').should == 'user'
-    end
-  end
+    context '#show' do
+      before :each do
+        controller.stub(:find)
+      end
 
-  context '#edit' do
-    before :each do
-      controller.stub(:params).and_return({ :id => 1 })
-      controller.stub(:find).and_return({ :user => 'user' })
-      controller.stub(:respond_with)
-      controller.edit
-    end
+      after :each do
+        controller.show
+      end
 
-    it 'should initialize an object' do
-      controller.instance_variable_get('@user').should == 'user'
-    end
-  end
+      it 'should initialize an object' do
+        controller.should_receive(:find)
+      end
 
-  context '#create' do
-    before :each do
-      controller.stub_chain(:interface_name, :to_sym).and_return(:user)
-      controller.stub(:params).and_return({ :user => 'user' })
-      controller.stub(:generate => { :user => 'user' } )
-      controller.stub(:respond_with)
-      controller.create
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
     end
 
-    it 'should create an object' do
-      controller.instance_variable_get('@user').should == 'user'
-    end
-  end
+    context '#edit' do
+      before :each do
+        controller.stub(:find)
+      end
 
-  context '#update' do
-    before :each do
-      controller.stub_chain(:interface_name, :to_sym).and_return(:user)
-      controller.stub(:params).and_return({ :id => 1, :user => 'user' })
-      controller.stub(:modify => { :user => 'user' })
-      controller.stub(:respond_with)
-      controller.update
-    end
+      after :each do
+        controller.edit
+      end
 
-    it 'should update an object' do
-      controller.instance_variable_get('@user').should == 'user'
-    end
-  end
+      it 'should initialize an object' do
+        controller.should_receive(:find)
+      end
 
-  context '#destroy' do
-    before :each do
-      controller.stub(:params).and_return({:id => 1})
-      controller.stub(:delete => { :user => 'user' })
-      controller.stub(:respond_with)
-      controller.destroy
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
     end
 
-    it 'should destroy an object' do
-      controller.instance_variable_get('@user').should == 'user'
+    context '#create' do
+      before :each do
+        controller.stub(:generate)
+      end
+
+      after :each do
+        controller.create
+      end
+
+      it 'should initialize an object' do
+        controller.should_receive(:generate)
+      end
+
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
+    end
+
+    context '#update' do
+      before :each do
+        controller.stub(:modify)
+      end
+
+      after :each do
+        controller.update
+      end
+
+      it 'should initialize an object' do
+        controller.should_receive(:modify)
+      end
+
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
+    end
+
+    context '#destroy' do
+      before :each do
+        controller.stub(:delete)
+      end
+
+      after :each do
+        controller.destroy
+      end
+
+      it 'should initialize an object' do
+        controller.should_receive(:delete)
+      end
+
+      it 'should respond correctly' do
+        controller.should_receive(:respond_with).with('responder', 'options')
+      end
     end
   end
 end
