@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = %w(lib)
 
   gem.add_runtime_dependency 'rails', '>= 3.0.0'
+  gem.add_development_dependency 'rails', '>= 3.1.0'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'coveralls'
 end
