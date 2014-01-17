@@ -19,9 +19,16 @@ module Zertico
       super
     end
 
-    def respond_to_missing?(method_name, include_private = false)
-      return true if interface.respond_to?(method_name)
-      super
+    if RUBY_VERSION == '1.8.7'
+      def respond_to?(method_name, include_private = false)
+        return true if self.interface.respond_to?(method_name)
+        super
+      end
+    else
+      def respond_to_missing?(method_name, include_private = false)
+        return true if self.interface.respond_to?(method_name)
+        super
+      end
     end
 
     protected
