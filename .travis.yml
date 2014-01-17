@@ -1,3 +1,4 @@
+before_install: gem install bundler -v '1.0.0'
 rvm:
   - 1.9.2
   - 1.9.3
@@ -7,3 +8,7 @@ gemfile:
   - gemfiles/Gemfile.rails3.1
   - gemfiles/Gemfile.rails3.2
   - gemfiles/Gemfile.rails4.0
+matrix:
+  exclude:
+    - rvm: 1.9.2
+      gemfile: gemfiles/Gemfile.rails4.0
