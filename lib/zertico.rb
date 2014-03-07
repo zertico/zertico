@@ -6,4 +6,5 @@ module Zertico
   autoload :Service, 'zertico/service'
   autoload :Accessor, 'zertico/accessor'
   autoload :Responder, 'zertico/responder'
+  autoload :Form, 'zertico/form'
 end
