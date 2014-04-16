@@ -7,6 +7,14 @@ module Zertico
 
     protected
 
+    def default_render
+      if request.headers['X-PJAX']
+        render layout: false
+      else
+        super
+      end
+    end
+
     def navigation_behavior(error)
       if get?
         raise error
