@@ -1,55 +1,49 @@
 module Zertico
   class Form
+    autoload :Association, 'zertico/form/association'
+    autoload :Klass, 'zertico/form/klass'
+    autoload :Hierarchy, 'zertico/form/hierarchy'
+    autoload :Resources, 'zertico/form/resources'
+
     include ActiveModel::Model
 
     def self.has_one(klass, attributes = [], options = {}, &block)
-      instance_name = (options[:instance_name] || klass.name.underscore)
       if block_given?
-        (@parents ||= []).push(instance_name)
+        hierarchy.push(klass, options[:instance_name], options[:as])
         yield
-        @parents.pop
+        hierarchy.pop
       end
-      if @parents.any?
-        as = options[:as] || @parents.last
-        (@nested ||= []).push([@parents.last, instance_name, as])
-      end
-      (@resource_classes ||= []) << [klass, instance_name]
       attr_reader instance_name
-      attributes.each do |attribute|
-        delegate attribute, "#{attribute}=", to: instance_name, prefix: true, allow_nil: true
-      end
+      attributes = attributes + attributes.map { |attribute| "#{attribute}=" }
+      delegate attributes, to: instance_name, prefix: true, allow_nil: true
     end
 
     def initialize(params = {})
-      @resources = []
-      resource_classes.each do |resource_class, resource_name|
-        attributes = params.select { |key, value| key.to_s.start_with?(resource_name) }
+      klasses.each do |klass|
+        attributes = params.select { |key, value| key.to_s.start_with?(klass.name) }
         if attributes.any?
-          instance_variable_set("@#{resource_name}", resource_class.new)
-          @resources << resource_name
-          attributes.each do |attribute_key, attribute_value|
-            send("#{attribute_key}=", params[attribute_key])
-          end
+          resources.add(klass.name, klass.instantiate(attributes))
         end
+      end
+      associations.each do |association|
+        resources.associate(association.child, association.parent, association.method_name)
       end
     end
 
     def valid?
-      return false if resources.empty?
-      nested.each do |parent, child, method_name|
-        get_resource(child).send("#{method_name}=", get_resource(parent))
-      end
+      return false if resources.all.empty?
       valid = resources.inject(true) { |sum, resource| sum & resource.valid? }
-      resource_names.each do |resource_name|
-        get_resource(resource_name).errors.each do |error_key, error_value|
-          self.errors.add("#{resource_name}_#{error_key}", error_value)
+      klasses.each do |klass|
+        next unless resource_defined?(klass)
+        get_resource(klass.name).errors.each do |error_key, error_value|
+          self.errors.add("#{klass.name}_#{error_key}", error_value)
         end
       end
       valid
     end
 
     def persisted?
-      return false if resources.empty?
+      return false if resources.all.empty?
       resources.inject(true) { |sum, resource| sum & resource.persisted? }
     end
 
@@ -69,26 +63,20 @@ module Zertico
       self.instance_variable_set('@_model_name',  ActiveModel::Name.new(klass))
     end
 
-    def resource_classes
-      self.class.instance_variable_get("@resource_classes")
+    def self.hierarchy
+      @hierarchy ||= Hierarchy.new
     end
 
-    def nested
-      self.class.instance_variable_get("@nested")
+    def klasses
+      self.class.hierarchy.klasses
     end
 
-    def get_resource(resource_name)
-      instance_variable_get("@#{resource_name}")
+    def associations
+      self.class.hierarchy.associations
     end
 
     def resources
-      @resources.map do |resource|
-        get_resource(resource)
-      end
-    end
-
-    def resource_names
-      @resources
+      @resources ||= Resources.new
     end
   end
 end
