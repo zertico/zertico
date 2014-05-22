@@ -6,4 +6,7 @@ module Zertico
   autoload :Service, 'zertico/service'
   autoload :Accessor, 'zertico/accessor'
   autoload :Responder, 'zertico/responder'
+  autoload :Organizer, 'zertico/organizer'
+  autoload :Interactor, 'zertico/interactor'
+  autoload :Exceptions, 'zertico/exceptions'
 end
