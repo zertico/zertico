@@ -9,8 +9,7 @@ module Zertico
       begin
         @interactors_classes.each_with_index do |interactor_class, i|
           @index = i
-          response_hash = interactor_class.new.perform(@params)
-          @params.merge!(response_hash)
+          instance_variable_set("@#{instance_name(interactor_class)}", interactor_class.new.perform(@params))
         end
         true
       rescue Zertico::Exceptions::InteractorException
@@ -20,9 +19,15 @@ module Zertico
 
     def rollback
       (0..@index-1).each do |i|
-        @interactors_classes[i].new.rollback(@params)
+        @interactors_classes[i].new.rollback(instance_variable_get("@#{interactor_class.to_s.downcase}"))
       end
       false
+    end
+
+    private
+
+    def instance_name(interactor_class)
+      interactor_class.to_s.downcase!.gsub(/[a-z]*::/, '')
     end
   end
 end
