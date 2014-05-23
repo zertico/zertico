@@ -21,7 +21,7 @@ describe Zertico::Organizer do
     context 'when it not raise an exception' do
       before :each do
         organizer.define_interactors([Zertico::Interactor])
-        Zertico::Interactor.stub_chain(:new, perform: {})
+        Zertico::Interactor.stub_chain(:new, :perform => {})
       end
 
       it 'should return true' do
@@ -32,7 +32,7 @@ describe Zertico::Organizer do
     context 'when it raise an exception' do
       before :each do
         organizer.define_interactors([Zertico::Interactor])
-        Zertico::Organizer.stub(rollback: false)
+        Zertico::Organizer.stub(:rollback => false)
       end
 
       it 'should return false' do
