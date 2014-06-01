@@ -4,16 +4,8 @@ describe Zertico::Organizer do
   let(:organizer) { Zertico::Organizer.new }
 
   describe '#define_interactors' do
-    context 'when it not receive params' do
-      it 'should return an empty array' do
-        organizer.define_interactors.should == []
-      end
-    end
-
-    context 'when it receive some params' do
-      it 'should return a filled array' do
-        organizer.define_interactors([Zertico::Interactor]).should == [Zertico::Interactor]
-      end
+    it 'should return a filled array' do
+      organizer.define_interactors([Zertico::Interactor]).should == [Zertico::Interactor]
     end
   end
 
