@@ -11,5 +11,11 @@ module Zertico
     def rollback(params)
       # Should overwrite!
     end
+
+    protected
+
+    def self.instance_name
+      self.class.to_s.chomp('Interactor').split('::').last
+    end
   end
 end

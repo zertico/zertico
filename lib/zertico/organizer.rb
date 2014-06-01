@@ -10,7 +10,7 @@ module Zertico
     def perform(params)
       @params = params
       interactors_classes.each do |interactor_class|
-        instance_variable_set("@#{instance_name(interactor_class)}", interactor_class.new.perform(@params))
+        instance_variable_set("@#{interactor_class.instance_name}", interactor_class.new.perform(@params))
         performed << interactor_class
       end
       true
@@ -23,12 +23,6 @@ module Zertico
         interactors_class.new.rollback(instance_variable_get("@#{interactor_class.to_s.downcase}"))
       end
       false
-    end
-
-    private
-
-    def instance_name(interactor_class)
-      interactor_class.to_s.downcase!.gsub(/[a-z]*::/, '')
     end
   end
 end
