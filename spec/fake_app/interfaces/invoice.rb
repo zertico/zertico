@@ -1,4 +1,4 @@
-class User
+class Invoice
   def self.create(params)
     new
   end

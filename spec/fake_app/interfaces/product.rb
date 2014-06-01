@@ -1,4 +1,4 @@
-class User
+class Product
   def self.create(params)
     new
   end

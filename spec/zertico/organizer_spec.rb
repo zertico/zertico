@@ -1,47 +1,33 @@
 require 'spec_helper'
 
 describe Zertico::Organizer do
-  let(:organizer) { Zertico::Organizer.new }
+  let(:successful_organizer) { BuyProductOrganizer }
+  let(:failed_organizer) { RegisterOrganizer }
 
-  describe '#define_interactors' do
-    it 'should return a filled array' do
-      organizer.define_interactors([Zertico::Interactor]).should == [Zertico::Interactor]
+  describe '.organize' do
+    it 'should set the interactors to organize' do
+      successful_organizer.interactors_classes.should == [ CreateProductInteractor, CreateInvoiceInteractor ]
     end
   end
 
-  describe '#perform' do
-    context 'when it not raise an exception' do
-      before :each do
-        organizer.define_interactors([Zertico::Interactor])
-        Zertico::Interactor.stub_chain(:new, :perform => {})
-      end
-
+  describe '.perform' do
+    context 'with success' do
       it 'should return true' do
-        organizer.perform({}).should be_true
+        successful_organizer.perform({}).should be_true
       end
     end
 
-    context 'when it raise an exception' do
-      before :each do
-        organizer.define_interactors([Zertico::Interactor])
-        Zertico::Organizer.stub(:rollback => false)
-      end
-
-      it 'should return false' do
-        organizer.perform({}).should be_false
+    context 'with failure' do
+      it "should return a mapping with the interactor's rollback results" do
+        failed_organizer.perform({}).should == [true]
       end
     end
   end
 
   describe '#rollback' do
     context 'when it raise an exception' do
-      before :each do
-        organizer.define_interactors([Zertico::Interactor])
-        organizer.instance_variable_set("@index", 0)
-      end
-
-      it 'should return false' do
-        organizer.rollback.should be_false
+      it "should return a mapping with the interactor's rollback results" do
+        failed_organizer.rollback.should == [true]
       end
     end
   end

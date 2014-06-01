@@ -5,11 +5,11 @@ module Zertico
     end
 
     def perform(params)
-      fail!('Need to overwrite this method!')
+      fail!('You should overwrite this method!')
     end
 
-    def rollback(params)
-      # Should overwrite!
+    def rollback
+      true
     end
 
     protected
