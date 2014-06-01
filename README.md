@@ -146,6 +146,11 @@ Its is a good idea to separate each of the patterns you use in his own folder. I
         organizers/
         responders/
         services/
+        
+## Thanks
+        
+The `Interactor` and `Organizer` idea was taken from [interactor](https://github.com/collectiveidea/interactor) by
+        [collectiveidea](https://github.com/collectiveidea). 
 
 ## Mantainers
 
