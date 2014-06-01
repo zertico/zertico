@@ -1,6 +1,6 @@
 module Zertico
   module Exceptions
-    class InteractorException < Exception
+    class RollbackException < Exception
     end
   end
 end

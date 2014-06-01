@@ -15,7 +15,7 @@ module Zertico
         performed << interactor
       end
       true
-    rescue Zertico::Exceptions::InteractorException
+    rescue Zertico::Exceptions::RollbackException
       rollback
     end
 

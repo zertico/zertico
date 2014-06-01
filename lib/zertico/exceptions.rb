@@ -1,5 +1,5 @@
 module Zertico
   module Exceptions
-    autoload :InteractorException, 'zertico/exceptions/interactor_exception'
+    autoload :RollbackException, 'zertico/exceptions/rollback_exception'
   end
 end
