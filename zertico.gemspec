@@ -8,8 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Zertico::VERSION
   gem.authors       = ['Paulo Henrique Lopes Ribeiro']
   gem.email         = %w(plribeiro3000@gmail.com)
-  gem.description   = %q{Easy Rails development using the Zertico Way}
-  gem.summary       = %q{Models and patterns used by Zertico to achieve greater agility}
+  gem.description   = %q{Collection of Patterns and Tools to increase development speed}
+  gem.summary       = %q{Common Patterns used by Zertico}
+
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)

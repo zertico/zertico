@@ -2,10 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/zertico.png)](http://badge.fury.io/rb/zertico) [![Build Status](https://travis-ci.org/zertico/zertico.png)](https://travis-ci.org/zertico/zertico) [![Dependency Status](https://gemnasium.com/zertico/zertico.png)](https://gemnasium.com/zertico/zertico) [![Coverage Status](https://coveralls.io/repos/zertico/zertico/badge.png?branch=master)](https://coveralls.io/r/zertico/zertico) [![Code Climate](https://codeclimate.com/github/zertico/zertico.png)](https://codeclimate.com/github/zertico/zertico)
 
-Easy Rails development using the Zertico Way.
-Rails is a great framework, but is not a great idea to let your tests depend on any part of it.
-Zertico let you develop what most important: your business logic. Also, your tests will not depend
-of rails at all.
+Increase your Rails development speed using patterns that will make your code even more easy to read and maintain.
 
 ## Installation
 
@@ -20,73 +17,135 @@ And then execute:
 Or install it yourself as:
 
     $ gem install zertico
+    
+## Tools
 
-## Basic Usage
+### Zertico::Accessor
 
-First, alter your ApplicationController and extend Zertico::Controller
-
+It is deprecated. Please use `Zertico::Delegator` instead.
+    
+### Zertico::Controller
+    
+The `Zertico::Controller` define behavior of a common Rails Controller. By Extending it, your controllers will be more smart,
+    they will know which model instantiate and where to redirect when needed.
+     
+All you need to do is extend ith with you `ApplicationController` and you will get the benefit of it.     
+      
 ```ruby
-class ApplicationController < Zertico::Controller
-end
+      class ApplicationController < ZerticoController
+        respond_to :html
+      end
+```      
+
+### Zertico::Delegator
+
+The `Zertico::Delegator` is a delegator with some extra tools to work with `ActiveRecord`. It will try to guess your model,
+    and initialize it.
+    
+```ruby
+    class UserDelegator < Zertico::Delegator
+        def name
+            interface.name.downcase
+        end
+    end
 ```
 
-Now, define the routes you need as follow:
+In the above example, it will automatically load a `User` model.
 
+### Zertico::Interactor
+
+The `Zertico::Interactor` defines a single call on a transaction at the ruby interpreter level. It can be used to define a
+    database call, api call, sending of an email, calculate some data based on another interactor.
+    
 ```ruby
-resources :entries
+    class CreateUserInteractor < Zertico::Interactor
+        def perform(params)
+            @user = User.create(params)
+        end
+        
+        def rollback
+            @user.destroy
+        end
+    end
+```
+        
+It should define its `perform` logic and `rollback` logic in case some other interactor fails.
+
+### Zertico::Organizer
+
+The `Zertico::Organizer` is the responsible for calling a pack of interactors, and in case of some failure, send a
+    rollback signal for all other interactors already executed.
+    
+```ruby
+    module CreateProduct
+        extend Zertico::Organizer
+        
+        organize [ CreateProductInteractor, CreateInvoiceInteractor ]
+    end
 ```
 
-And thats all. All the logic is already defined on the controller. Happy coding. =D
+In this example, it something goes wrong with the Invoice Creation, it will rollback the Product Creation.
 
-## Advanced Usage
+### Zertico::Responder
 
-The Zertico::Controller doesn't cover all cases. For those that are not covered you will have to
-create a service with the same name of the controller, as follows:
-
+`Zertico::Responder` its a custom Rails Responder with [pjax](https://github.com/defunkt/jquery-pjax) support and an 
+    option to force a redirect no matter what.
+    
 ```ruby
-class UsersController < ApplicationController
+    class ApplicationResponder < ActionController::Responder
+        # custom responder behavior implemented by [responders](https://github.com/plataformatec/responders)
+        include Responders::FlashResponder
+        include Responders::HttpCacheResponder
+        include Responders::CollectionResponder
+        
+        # add this line to get the Zertico::Responder behavior
+        include Zertico::Responder
+    end
 ```
 
-```ruby
-module UsersService
-    include Zertico::Service
-end
-```
-
-Your service must be a module and include Zertico::Service to grant access to all the methods already defined.
-Then you will have to redefine all the methods you need. Each action of the controller is mapped to a method.
-The return of the method will be passed to respond_with.
-You can pass extra options to respond_with by defining @options, default to blank hash {}.
-
-Sometimes, the ActiveRecord models grow to much. It start to handle all kinds of logic. To make things simple,
-it should only concern about database access. To clean it, use the Zertico::Delegator. It is a wrapper that will
-pass all methods to the object unless the ones you overwrite. This way, is easy to start develop better models.
-
-By using Zertico::Controller and Zertico::Delegator, a great part of you project will be simple ruby classes.
-It means, better and simple tests, without depend on rails and any other external logic. =D
-
-## Conventions
-
-To work with the gem, you will need to follow some conventions. Your model ( called interface here ) need to
-have the same name of your controller, without the 'Controller' substring. The Service need to replace the
-'Controller' substring with 'Service' like:
+You will also need to define your custom Responder inside your ApplicationController:
 
 ```ruby
-class UsersController < Zertico::Controller
-end
-
-module UsersService
-    include Zertico::Service
-end
-
-class UserDelegator < Zertico::Delegator
-end
-
-class User < ActiveRecord::Base
-end
+    class ApplicationController < ActionController::Base
+        self.responder = ApplicationResponder
+        
+        respond_to :html
+    end
 ```
 
-It is good to put the services on a separate folder called services.
+### Zertico::Service
+
+`Zertico::Service` gives more flexibility to the `Zertico::Controller`. When using `Zertico::Controller` your controllers
+    will try to find a module with the same name as your controller. If it can't find, it will include `Zertico::Service`.
+    If you define a service, you can define which class to use on that controller and even more.
+    
+```ruby
+    class AdminController < ApplicationController
+    end
+
+    module UsersService
+        include Zertico::Service
+        
+        def interface_class
+            User
+        end
+    end
+```
+
+In the example above, the controller will use the model User instead of the model Admin he would have guessed.
+
+### Extra Tips
+
+Its is a good idea to separate each of the patterns you use in his own folder. If you choose to use all patterns here,
+    you would have this:
+    
+    app/
+        controllers/
+        delegators/
+        interactors/
+        organizers/
+        responders/
+        services/
 
 ## Mantainers
 
