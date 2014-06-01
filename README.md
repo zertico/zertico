@@ -32,9 +32,9 @@ The `Zertico::Controller` define behavior of a common Rails Controller. By Exten
 All you need to do is extend ith with you `ApplicationController` and you will get the benefit of it.     
       
 ```ruby
-      class ApplicationController < ZerticoController
-        respond_to :html
-      end
+class ApplicationController < ZerticoController
+    respond_to :html
+end
 ```      
 
 ### Zertico::Delegator
@@ -43,11 +43,11 @@ The `Zertico::Delegator` is a delegator with some extra tools to work with `Acti
     and initialize it.
     
 ```ruby
-    class UserDelegator < Zertico::Delegator
-        def name
-            interface.name.downcase
-        end
+class UserDelegator < Zertico::Delegator
+    def name
+        interface.name.downcase
     end
+end
 ```
 
 In the above example, it will automatically load a `User` model.
@@ -58,15 +58,15 @@ The `Zertico::Interactor` defines a single call on a transaction at the ruby int
     database call, api call, sending of an email, calculate some data based on another interactor.
     
 ```ruby
-    class CreateUserInteractor < Zertico::Interactor
-        def perform(params)
-            @user = User.create(params)
-        end
-        
-        def rollback
-            @user.destroy
-        end
+class CreateUserInteractor < Zertico::Interactor
+    def perform(params)
+        @user = User.create(params)
     end
+    
+    def rollback
+        @user.destroy
+    end
+end
 ```
         
 It should define its `perform` logic and `rollback` logic in case some other interactor fails.
@@ -77,11 +77,11 @@ The `Zertico::Organizer` is the responsible for calling a pack of interactors, a
     rollback signal for all other interactors already executed.
     
 ```ruby
-    module CreateProduct
-        extend Zertico::Organizer
-        
-        organize [ CreateProductInteractor, CreateInvoiceInteractor ]
-    end
+module CreateProduct
+    extend Zertico::Organizer
+    
+    organize [ CreateProductInteractor, CreateInvoiceInteractor ]
+end
 ```
 
 In this example, it something goes wrong with the Invoice Creation, it will rollback the Product Creation.
@@ -92,25 +92,25 @@ In this example, it something goes wrong with the Invoice Creation, it will roll
     option to force a redirect no matter what.
     
 ```ruby
-    class ApplicationResponder < ActionController::Responder
-        # custom responder behavior implemented by [responders](https://github.com/plataformatec/responders)
-        include Responders::FlashResponder
-        include Responders::HttpCacheResponder
-        include Responders::CollectionResponder
-        
-        # add this line to get the Zertico::Responder behavior
-        include Zertico::Responder
-    end
+class ApplicationResponder < ActionController::Responder
+    # custom responder behavior implemented by [responders](https://github.com/plataformatec/responders)
+    include Responders::FlashResponder
+    include Responders::HttpCacheResponder
+    include Responders::CollectionResponder
+    
+    # add this line to get the Zertico::Responder behavior
+    include Zertico::Responder
+end
 ```
 
 You will also need to define your custom Responder inside your ApplicationController:
 
 ```ruby
-    class ApplicationController < ActionController::Base
-        self.responder = ApplicationResponder
-        
-        respond_to :html
-    end
+class ApplicationController < ActionController::Base
+    self.responder = ApplicationResponder
+    
+    respond_to :html
+end
 ```
 
 ### Zertico::Service
@@ -120,16 +120,16 @@ You will also need to define your custom Responder inside your ApplicationContro
     If you define a service, you can define which class to use on that controller and even more.
     
 ```ruby
-    class AdminController < ApplicationController
-    end
+class AdminController < ApplicationController
+end
 
-    module UsersService
-        include Zertico::Service
-        
-        def interface_class
-            User
-        end
+module UsersService
+    include Zertico::Service
+    
+    def interface_class
+        User
     end
+end
 ```
 
 In the example above, the controller will use the model User instead of the model Admin he would have guessed.
