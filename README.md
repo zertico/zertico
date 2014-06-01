@@ -59,10 +59,10 @@ The return of the method will be passed to respond_with.
 You can pass extra options to respond_with by defining @options, default to blank hash {}.
 
 Sometimes, the ActiveRecord models grow to much. It start to handle all kinds of logic. To make things simple,
-it should only concern about database access. To clean it, use the Zertico::Accessor. It is a wrapper that will
+it should only concern about database access. To clean it, use the Zertico::Delegator. It is a wrapper that will
 pass all methods to the object unless the ones you overwrite. This way, is easy to start develop better models.
 
-By using Zertico::Controller and Zertico::Accessor, a great part of you project will be simple ruby classes.
+By using Zertico::Controller and Zertico::Delegator, a great part of you project will be simple ruby classes.
 It means, better and simple tests, without depend on rails and any other external logic. =D
 
 ## Conventions
@@ -79,7 +79,7 @@ module UsersService
     include Zertico::Service
 end
 
-class UserAccessor < Zertico::Accessor
+class UserDelegator < Zertico::Delegator
 end
 
 class User < ActiveRecord::Base
