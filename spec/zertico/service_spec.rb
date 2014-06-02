@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Zertico::Service do
   let(:controller) { UserController.new }
   let(:admin_controller) { Admin::UserController.new }
+  let(:gifts_controller) { Person::GiftsController.new }
   let(:profile_controller) { Person::ProfileController.new }
   let(:object) { Object.new }
   let(:users_controller) { UsersController.new }
@@ -158,6 +159,12 @@ describe Zertico::Service do
     context 'on a non namespaced controller and non namespaced interface model' do
       it 'should return id' do
         controller.send(:interface_id).should == 'id'
+      end
+    end
+
+    context 'on a namespaced controller and an undefined interface model' do
+      it 'should return id' do
+        gifts_controller.send(:interface_id).should == 'id'
       end
     end
   end
