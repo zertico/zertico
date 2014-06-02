@@ -35,12 +35,19 @@ All you need to do is extend ith with you `ApplicationController` and you will g
 class ApplicationController < ZerticoController
     respond_to :html
 end
-```      
+```  
+    
+After that all your controllers will look like this:
+    
+```ruby
+class CarsController < ApplicationController
+end
+```    
 
 ### Zertico::Delegator
 
 The `Zertico::Delegator` is a delegator with some extra tools to work with `ActiveRecord`. It will try to guess your model,
-    and initialize it.
+    and initialize it. It can be used as a Decorator.
     
 ```ruby
 class UserDelegator < Zertico::Delegator
@@ -48,14 +55,19 @@ class UserDelegator < Zertico::Delegator
         interface.name.downcase
     end
 end
-```
 
-In the above example, it will automatically load a `User` model.
+user = UserDelegator.find(2)
+puts user.interface.name
+puts user.name
+
+# 'User Name'
+# 'user name'
+```
 
 ### Zertico::Interactor
 
 The `Zertico::Interactor` defines a single call on a transaction at the ruby interpreter level. It can be used to define a
-    database call, api call, sending of an email, calculate some data based on another interactor.
+    database call, api call, sending of an email or calculate some data based on another interactor.
     
 ```ruby
 class CreateUserInteractor < Zertico::Interactor
@@ -73,7 +85,7 @@ It should define its `perform` logic and `rollback` logic in case some other int
 
 ### Zertico::Organizer
 
-The `Zertico::Organizer` is the responsible for calling a pack of interactors, and in case of some failure, send a
+The `Zertico::Organizer` is responsible for calling a pack of interactors, and in case of some failure, send a
     rollback signal for all other interactors already executed.
     
 ```ruby
@@ -113,17 +125,27 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+To force a redirect do as follows:
+
+```ruby
+UsersController < ApplicationController
+    def create
+        @user = User.create(params[:user])
+        respond_with(@user, force_redirect: true) # It will redirect even on failure
+    end
+end
+```
+
 ### Zertico::Service
 
-`Zertico::Service` gives more flexibility to the `Zertico::Controller`. When using `Zertico::Controller` your controllers
-    will try to find a module with the same name as your controller. If it can't find, it will include `Zertico::Service`.
-    If you define a service, you can define which class to use on that controller and even more.
+When using `Zertico::Controller` your controllers will try to find a module with the same name as your controller. 
+    If it can't find, it will include `Zertico::Service`. Creating the service, you can define which class to use on that controller.
     
 ```ruby
 class AdminController < ApplicationController
 end
 
-module UsersService
+module AdminService
     include Zertico::Service
     
     def interface_class
