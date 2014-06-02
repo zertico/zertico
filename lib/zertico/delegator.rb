@@ -2,12 +2,21 @@ require 'delegate'
 
 module Zertico
   class Delegator < SimpleDelegator
+    def initialize(object = nil)
+      object ||= interface_class.new
+      super(object)
+    end
+
     def self.find(id)
       new(interface_class.find(id))
     end
 
     def interface
       __getobj__
+    end
+
+    def interface=(object)
+      __setobj__(object)
     end
 
     protected
@@ -17,11 +26,9 @@ module Zertico
     end
 
     def self.interface_class
-      begin
-        self.name.chomp('Delegator').constantize
-      rescue NameError
-        self.name.chomp('Delegator').split('::').last.constantize
-      end
+      self.name.chomp('Delegator').constantize
+    rescue NameError
+      self.name.chomp('Delegator').split('::').last.constantize
     end
 
     def interface_name

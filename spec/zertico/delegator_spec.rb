@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Zertico::Delegator do
   let(:user) { User.new }
-  let(:user_delegator) { UserDelegator.new(user) }
+  let(:product) { Product.new }
+  let(:user_delegator) { UserDelegator.new }
 
   context 'on a namespaced delegator and interface model' do
     it 'should find the interface model' do
@@ -34,6 +35,20 @@ describe Zertico::Delegator do
     end
   end
 
+  describe '.new' do
+    context 'without params' do
+      it "should initialize an object based on delegator's name" do
+        UserDelegator.new.interface.should be_an_instance_of(User)
+      end
+    end
+
+    context 'with an object as param' do
+      it 'use this object' do
+        UserDelegator.new(product).interface.should be_an_instance_of(Product)
+      end
+    end
+  end
+
   describe '.find' do
     before :each do
       User.stub(:find => user)
@@ -51,6 +66,16 @@ describe Zertico::Delegator do
 
     it 'should return the interface object' do
       UserDelegator.find(3).interface.should == user
+    end
+  end
+
+  describe '#interface=' do
+    before :each do
+      user_delegator.interface = product
+    end
+
+    it 'should set the interface object' do
+      user_delegator.interface.should == product
     end
   end
 end

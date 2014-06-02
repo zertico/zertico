@@ -8,10 +8,9 @@ module Zertico
     end
 
     def perform(params)
-      @params = params
       interactors_classes.each do |interactor_class|
         interactor = interactor_class.new
-        interactor.perform(@params)
+        interactor.perform(params)
         performed << interactor
       end
       true
