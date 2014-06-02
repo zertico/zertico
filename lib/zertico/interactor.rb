@@ -10,8 +10,8 @@ module Zertico
 
     protected
 
-    def self.instance_name
-      self.class.to_s.chomp('Interactor').split('::').last
+    def self.interface_name
+      self.to_s.chomp('Interactor').split('::').last
     end
 
     private

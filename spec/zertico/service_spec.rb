@@ -7,30 +7,6 @@ describe Zertico::Service do
   let(:object) { Object.new }
   let(:users_controller) { UsersController.new }
 
-  context 'on a pluralized controller' do
-    it 'should find the interface model' do
-      users_controller.send(:interface_class).should == User
-    end
-  end
-
-  context 'on a namespaced controller and interface model' do
-    it 'should find the interface model' do
-      profile_controller.send(:interface_class).should == Person::Profile
-    end
-  end
-
-  context 'on a namespaced controller and non namespaced interface model' do
-    it 'should find the interface model' do
-      admin_controller.send(:interface_class).should == User
-    end
-  end
-
-  context 'on a non namespaced controller and non namespaced interface model' do
-    it 'should find the interface model' do
-      controller.send(:interface_class).should == User
-    end
-  end
-
   context '#all' do
     before :each do
       User.stub(:all => [])
@@ -157,6 +133,62 @@ describe Zertico::Service do
 
     it 'should set the resource' do
       controller.resource_source.should == [ object ]
+    end
+  end
+
+  describe '#interface_id' do
+    context 'on a pluralized controller' do
+      it 'should return id' do
+        users_controller.send(:interface_id).should == 'id'
+      end
+    end
+
+    context 'on a namespaced controller and interface model' do
+      it 'should return id with the model name' do
+        profile_controller.send(:interface_id).should == 'person_profile_id'
+      end
+    end
+
+    context 'on a namespaced controller and non namespaced interface model' do
+      it 'should return id with the model name' do
+        admin_controller.send(:interface_id).should == 'user_id'
+      end
+    end
+
+    context 'on a non namespaced controller and non namespaced interface model' do
+      it 'should return id' do
+        controller.send(:interface_id).should == 'id'
+      end
+    end
+  end
+
+  describe '#interface_name' do
+    it 'should return the interface name' do
+      users_controller.send(:interface_name).should == 'user'
+    end
+  end
+
+  context 'on a pluralized controller' do
+    it 'should find the interface model' do
+      users_controller.send(:interface_class).should == User
+    end
+  end
+
+  context 'on a namespaced controller and interface model' do
+    it 'should find the interface model' do
+      profile_controller.send(:interface_class).should == Person::Profile
+    end
+  end
+
+  context 'on a namespaced controller and non namespaced interface model' do
+    it 'should find the interface model' do
+      admin_controller.send(:interface_class).should == User
+    end
+  end
+
+  context 'on a non namespaced controller and non namespaced interface model' do
+    it 'should find the interface model' do
+      controller.send(:interface_class).should == User
     end
   end
 end

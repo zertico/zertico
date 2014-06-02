@@ -43,11 +43,12 @@ module Zertico
     protected
 
     def interface_id
-      begin
-        return "#{interface_name}_id" if self.class.name.chomp('Controller').split('::').size > 1
-      rescue NameError
+      if self.class.name.chomp('Controller').split('::').size > 1
+        "#{interface_name.gsub('/', '_')}_id"
+      else
         'id'
       end
+    rescue NameError
       'id'
     end
 

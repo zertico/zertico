@@ -78,4 +78,28 @@ describe Zertico::Delegator do
       user_delegator.interface.should == product
     end
   end
+
+  describe '.interface_name' do
+    it 'should return the interface name' do
+      UserDelegator.interface_name.should == 'user'
+    end
+  end
+
+  describe '.interface_class' do
+    it 'should return the interface name' do
+      UserDelegator.interface_class.should == User
+    end
+  end
+
+  describe '#interface_name' do
+    it 'should return the interface name' do
+      user_delegator.send(:interface_name).should == 'user'
+    end
+  end
+
+  describe '#interface_class' do
+    it 'should return the interface name' do
+      user_delegator.send(:interface_class).should == User
+    end
+  end
 end
