@@ -13,7 +13,7 @@ describe Zertico::Organizer do
   describe '.perform' do
     context 'with success' do
       it 'should return true' do
-        successful_organizer.perform({}).should be_true
+        successful_organizer.perform({}).should == true
       end
     end
 

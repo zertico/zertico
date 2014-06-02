@@ -11,7 +11,7 @@ describe Zertico::Interactor do
 
   describe '#rollback' do
     it 'should return true' do
-      interactor.rollback.should be_true
+      interactor.rollback.should == true
     end
   end
 
