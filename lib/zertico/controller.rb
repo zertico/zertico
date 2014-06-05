@@ -2,45 +2,49 @@ require 'action_controller'
 
 module Zertico
   class Controller < ActionController::Base
+    attr_reader :service
+    
     def initialize
-      begin
-        extend "::#{self.class.name.chomp('Controller').concat('Service')}".constantize
-      rescue NameError
-        extend Zertico::Service
-      end
+      @service ||= "::#{self.class.name.chomp('Controller').concat('Service')}".constantize.new
+    rescue NameError
+      @service ||= Zertico::Service.new
+    ensure
       super
     end
 
     def index
-      respond_with(all, options)
+      instance_variable_set("@#{service.interface_name.pluralize}", service.index)
+      respond_with(instance_variable_get("@#{service.interface_name.pluralize}"), service.options)
     end
 
     def new
-      respond_with(build, options)
+      instance_variable_set("@#{service.interface_name}", service.new)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
     end
 
     def show
-      respond_with(find, options)
+      instance_variable_set("@#{service.interface_name}", service.show(params))
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
     end
 
     def edit
-      respond_with(find, options)
+      instance_variable_set("@#{service.interface_name}", service.show(params))
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
     end
 
     def create
-      respond_with(generate, options)
+      instance_variable_set("@#{service.interface_name}", service.create(params))
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
     end
 
     def update
-      respond_with(modify, options)
+      instance_variable_set("@#{service.interface_name}", service.update(params))
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
     end
 
     def destroy
-      respond_with(delete, options)
-    end
-
-    def options
-      @options || {}
+      instance_variable_set("@#{service.interface_name}", service.destroy(params))
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
     end
   end
 end

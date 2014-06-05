@@ -1,201 +1,161 @@
 require 'spec_helper'
 
 describe Zertico::Service do
-  let(:controller) { UserController.new }
-  let(:admin_controller) { Admin::UserController.new }
-  let(:gifts_controller) { Person::GiftsController.new }
-  let(:profile_controller) { Person::ProfileController.new }
+  let(:service) { UserService.new }
+  let(:admin_service) { Admin::UserService.new }
+  let(:gifts_service) { Person::GiftsService.new }
+  let(:profile_service) { Person::ProfileService.new }
   let(:object) { Object.new }
-  let(:users_controller) { UsersController.new }
+  let(:users_service) { UsersService.new }
+  let(:user) { User.new }
 
-  context '#all' do
+  before :each do
+    User.stub(new: user)
+  end
+
+  context '#index' do
+    it 'should return a collection of users' do
+      users_service.index.should == [user, user]
+    end
+
     before :each do
-      User.stub(:all => [])
-      controller.all
+      users_service.index
     end
 
-    it 'should save a collection on an instance variable' do
-      controller.instance_variable_get('@users').should == []
-    end
-
-    it 'should return a collection' do
-      controller.all.should == []
+    it 'should save the collection in an instance variable' do
+      users_service.users.should == [user, user]
     end
   end
 
-  context '#build' do
+  context '#new' do
+    it 'should return a new user' do
+      users_service.new.should == user
+    end
+
     before :each do
-      User.stub(:new => object)
-      controller.build
+      users_service.new
     end
 
-    it 'should save an object on an instance variable' do
-      controller.instance_variable_get('@user').should == object
-    end
-
-    it 'should return an object' do
-      controller.build.should == object
+    it 'should save the user in an instance variable' do
+      users_service.user.should == user
     end
   end
 
-  context '#find' do
+  context '#show' do
+    it 'should search for an user' do
+      users_service.show({ :id => 1 }).should == user
+    end
+
     before :each do
-      User.stub(:find => object)
-      controller.stub(:params => { :id => 1 })
-      controller.find
+      users_service.show({ :id => 1 })
     end
 
-    it 'should save an object on an instance variable' do
-      controller.instance_variable_get('@user').should == object
-    end
-
-    it 'should return an object' do
-      controller.find.should == object
+    it 'should save the user found in an instance variable' do
+      users_service.user.should == user
     end
   end
 
-  context '#generate' do
+  context '#create' do
+    it 'should search for an user' do
+      users_service.create({ :user => {} }).should == user
+    end
+
     before :each do
-      User.stub(:create => object)
-      controller.stub(:params => { :user => {} })
-      controller.generate
+      users_service.create({ :user => {} })
     end
 
-    it 'should save an object on an instance variable' do
-      controller.instance_variable_get('@user').should == object
-    end
-
-    it 'should return an object' do
-      controller.generate.should == object
+    it 'should save the created user in an instance variable' do
+      users_service.user.should == user
     end
   end
 
-  context '#modify' do
+  context '#update' do
+    it 'should search for an user' do
+      users_service.create({ :id => 1, :user => {} }).should == user
+    end
+
     before :each do
-      User.stub(:find => object)
-      controller.stub(:params => { :id => 1, :user => {} })
-      object.stub(:update_attributes).with({}).and_return(true)
-      controller.modify
+      users_service.create({ :id => 1, :user => {} })
     end
 
-    it 'should save an object on an instance variable' do
-      controller.instance_variable_get('@user').should == object
-    end
-
-    it 'should return an object' do
-      controller.modify.should == object
+    it 'should save the updated user in an instance variable' do
+      users_service.user.should == user
     end
   end
 
-  context '#delete' do
+  context '#destroy' do
+    it 'should search for an user' do
+      users_service.destroy({ :id => 1 }).should == user
+    end
+
     before :each do
-      User.stub(:find => object)
-      controller.stub(:params => { :id => 1 })
-      object.stub(:destroy => true)
-      controller.delete
+      users_service.destroy({ :id => 1 })
     end
 
-    it 'should save an object on an instance variable' do
-      controller.instance_variable_get('@user').should == object
-    end
-
-    it 'should return an object' do
-      controller.delete.should == object
-    end
-  end
-
-  context '#resource_source' do
-    context 'with no resource defined' do
-      before :each do
-        controller.stub(:interface_class => User)
-      end
-
-      it 'should return the resource' do
-        controller.resource_source.should == User
-      end
-    end
-
-    context 'with a resource defined' do
-      before :each do
-        controller.resource_source = %w(Person::Profile)
-      end
-
-      it 'should return the resource' do
-        controller.resource_source.should == Person::Profile
-      end
-    end
-  end
-
-  context '#resource=' do
-    before :each do
-      User.stub(:all => [ object ])
-      controller.resource_source = %w(User all)
-    end
-
-    it 'should set the resource' do
-      controller.resource_source.should == [ object ]
+    it 'should save the destroyed user in an instance variable' do
+      users_service.user.should == user
     end
   end
 
   describe '#interface_id' do
-    context 'on a pluralized controller' do
+    context 'on a pluralized service' do
       it 'should return id' do
-        users_controller.send(:interface_id).should == 'id'
+        users_service.send(:interface_id).should == 'id'
       end
     end
 
-    context 'on a namespaced controller and interface model' do
+    context 'on a namespaced service and interface model' do
       it 'should return id with the model name' do
-        profile_controller.send(:interface_id).should == 'person_profile_id'
+        profile_service.send(:interface_id).should == 'person_profile_id'
       end
     end
 
-    context 'on a namespaced controller and non namespaced interface model' do
+    context 'on a namespaced service and non namespaced interface model' do
       it 'should return id with the model name' do
-        admin_controller.send(:interface_id).should == 'user_id'
+        admin_service.send(:interface_id).should == 'user_id'
       end
     end
 
-    context 'on a non namespaced controller and non namespaced interface model' do
+    context 'on a non namespaced service and non namespaced interface model' do
       it 'should return id' do
-        controller.send(:interface_id).should == 'id'
+        service.send(:interface_id).should == 'id'
       end
     end
 
-    context 'on a namespaced controller and an undefined interface model' do
+    context 'on a namespaced service and an undefined interface model' do
       it 'should return id' do
-        gifts_controller.send(:interface_id).should == 'id'
+        gifts_service.send(:interface_id).should == 'id'
       end
     end
   end
 
   describe '#interface_name' do
     it 'should return the interface name' do
-      users_controller.send(:interface_name).should == 'user'
+      users_service.send(:interface_name).should == 'user'
     end
   end
 
-  context 'on a pluralized controller' do
+  context 'on a pluralized service' do
     it 'should find the interface model' do
-      users_controller.send(:interface_class).should == User
+      users_service.send(:interface_class).should == User
     end
   end
 
-  context 'on a namespaced controller and interface model' do
+  context 'on a namespaced service and interface model' do
     it 'should find the interface model' do
-      profile_controller.send(:interface_class).should == Person::Profile
+      profile_service.send(:interface_class).should == Person::Profile
     end
   end
 
-  context 'on a namespaced controller and non namespaced interface model' do
+  context 'on a namespaced service and non namespaced interface model' do
     it 'should find the interface model' do
-      admin_controller.send(:interface_class).should == User
+      admin_service.send(:interface_class).should == User
     end
   end
 
-  context 'on a non namespaced controller and non namespaced interface model' do
+  context 'on a non namespaced service and non namespaced interface model' do
     it 'should find the interface model' do
-      controller.send(:interface_class).should == User
+      service.send(:interface_class).should == User
     end
   end
 end
