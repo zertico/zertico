@@ -1,5 +1,5 @@
 class CreateInvoiceInteractor < Zertico::Interactor
-  def perform(attributes)
+  def perform(attributes, objects)
     @invoice = Invoice.create(attributes)
   end
 
