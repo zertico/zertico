@@ -71,7 +71,7 @@ The `Zertico::Interactor` defines a single call on a transaction at the ruby int
     
 ```ruby
 class CreateUserInteractor < Zertico::Interactor
-    def perform(params)
+    def perform(params, objects)
         @user = User.create(params)
     end
     
@@ -82,6 +82,7 @@ end
 ```
         
 It should define its `perform` logic and `rollback` logic in case some other interactor fails.
+    The 'objects' in 'perform' method is a way to use the modified objects in previous interactors.
 
 ### Zertico::Organizer
 
