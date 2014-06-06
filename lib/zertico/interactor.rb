@@ -1,6 +1,6 @@
 module Zertico
   class Interactor
-    def perform(params)
+    def perform(params, objects)
       fail!('You should overwrite this method!')
     end
 
