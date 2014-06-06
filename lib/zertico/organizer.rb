@@ -1,5 +1,3 @@
-require 'pry'
-
 module Zertico
   module Organizer
     attr_reader :interactors_classes, :objects, :performed
