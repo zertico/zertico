@@ -11,4 +11,5 @@ Coveralls.wear!
 
 require "#{File.dirname(__FILE__)}/../lib/zertico"
 
-Dir["#{File.dirname(__FILE__)}/fake_app/**/*.rb"].sort.each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/fake_app/config/**/*.rb"].sort.each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/fake_app/app/**/*.rb"].sort.each { |f| require f }

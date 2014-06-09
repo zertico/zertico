@@ -138,19 +138,19 @@ end
 
 ### Zertico::Service
 
-When using `Zertico::Controller` your controllers will try to find a module with the same name as your controller. 
-    If it can't find, it will include `Zertico::Service`. Creating the service, you can define which class to use on that controller.
+When using `Zertico::Controller` your controllers will try to find a service with the same name as your controller. 
+    If it can't find, it will initialize and `Zertico::Service` class. Creating the service, you can define which class to use on that controller.
     
 ```ruby
 class AdminController < ApplicationController
 end
 
-module AdminService
-    include Zertico::Service
+class AdminService < Zertico::Service
+    use_interface User
+    # or
+    use_model User
     
-    def interface_class
-        User
-    end
+    use_as_variable_name 'epic_user'
 end
 ```
 

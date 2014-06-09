@@ -1,168 +1,95 @@
 require 'spec_helper'
+require 'rspec/rails'
 
-describe Zertico::Controller do
+describe UsersController, :type => :controller do
   let(:controller) { Zertico::Controller.new }
   let(:user_controller) { UserController.new }
-  let(:admin_controller) { Admin::UserController.new }
+  let(:service) { Zertico::Service.new }
+  let(:user) { User.new }
 
-  context 'not being nested' do
-    it 'should find on the correct id' do
-      user_controller.send(:interface_id).should  == 'id'
-    end
-  end
-
-  context 'being nested' do
-    it 'should find on the correct id' do
-      admin_controller.send(:interface_id).should  == 'user_id'
-    end
+  before :each do
+    User.stub(:new => user)
   end
 
   context 'without a custom service' do
-    it 'should extend Zertico::Service' do
-      controller.should respond_to :all
+    it 'should initialize Zertico::Service' do
+      controller.service.should be_an_instance_of(Zertico::Service)
     end
   end
 
   context 'with a custom service' do
-    it 'should extend Zertico::Service' do
-      user_controller.should respond_to :all
-    end
-
-    it 'should extend it!' do
-      user_controller.should respond_to :user
+    it 'should initialize it!' do
+      user_controller.service.should be_an_instance_of(UserService)
     end
   end
 
-  context 'actions' do
+  context '#index' do
     before :each do
-      controller.instance_variable_set('@options', 'options')
-      controller.stub(:respond_with).with('responder', 'options')
+      get :index
     end
 
-    context '#index' do
-      before :each do
-        controller.stub(:all => 'responder')
-      end
+    it 'should initialize a collection of users' do
+      assigns(:users).should == [user, user]
+    end
+  end
 
-      after :each do
-        controller.index
-      end
-
-      it 'should initialize a collection of objects' do
-        controller.should_receive(:all)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+  context '#new' do
+    before :each do
+      get :new
     end
 
-    context '#new' do
-      before :each do
-        controller.stub(:build => 'responder')
-      end
+    it 'should initialize an user' do
+      assigns(:user).should == user
+    end
+  end
 
-      after :each do
-        controller.new
-      end
-
-      it 'should initialize an object' do
-        controller.should_receive(:build)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+  context '#show' do
+    before :each do
+      get :show, :id => 1
     end
 
-    context '#show' do
-      before :each do
-        controller.stub(:find => 'responder')
-      end
+    it 'should find and initialize an user' do
+      assigns(:user).should == user
+    end
+  end
 
-      after :each do
-        controller.show
-      end
-
-      it 'should initialize an object' do
-        controller.should_receive(:find)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+  context '#edit' do
+    before :each do
+      get :edit, :id => 1
     end
 
-    context '#edit' do
-      before :each do
-        controller.stub(:find => 'responder')
-      end
+    it 'should find and initialize an user' do
+      assigns(:user).should == user
+    end
+  end
 
-      after :each do
-        controller.edit
-      end
-
-      it 'should initialize an object' do
-        controller.should_receive(:find)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+  context '#create' do
+    before :each do
+      post :create, :user => {}
     end
 
-    context '#create' do
-      before :each do
-        controller.stub(:generate => 'responder')
-      end
+    it 'should create a new user' do
+      assigns(:user).should == user
+    end
+  end
 
-      after :each do
-        controller.create
-      end
-
-      it 'should initialize an object' do
-        controller.should_receive(:generate)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+  context '#update' do
+    before :each do
+      put :update, :id => 1, :user => {}
     end
 
-    context '#update' do
-      before :each do
-        controller.stub(:modify => 'responder')
-      end
+    it 'should update an user' do
+      assigns(:user).should == user
+    end
+  end
 
-      after :each do
-        controller.update
-      end
-
-      it 'should initialize an object' do
-        controller.should_receive(:modify)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+  context '#destroy' do
+    before :each do
+      delete :destroy, :id => 1
     end
 
-    context '#destroy' do
-      before :each do
-        controller.stub(:delete => 'responder')
-      end
-
-      after :each do
-        controller.destroy
-      end
-
-      it 'should initialize an object' do
-        controller.should_receive(:delete)
-      end
-
-      it 'should respond correctly' do
-        controller.should_receive(:respond_with).with('responder', 'options')
-      end
+    it 'should destroy the user' do
+      assigns(:user).should == user
     end
   end
 end

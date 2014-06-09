@@ -9,7 +9,7 @@ module Zertico
 
     def default_render
       if request.headers['X-PJAX']
-        render layout: false
+        render :layout => false
       else
         super
       end
