@@ -1,0 +1,6 @@
+Style/LineLength:
+  Enabled: false
+Style/TrailingBlankLines:
+  Enabled: false
+Style/TrailingWhitespace:
+  Enabled: false
