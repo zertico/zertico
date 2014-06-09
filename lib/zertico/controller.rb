@@ -14,37 +14,37 @@ module Zertico
 
     def index
       instance_variable_set("@#{service.interface_name.pluralize}", service.index)
-      respond_with(instance_variable_get("@#{service.interface_name.pluralize}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name.pluralize}"), service.responder_settings_for_index)
     end
 
     def new
       instance_variable_set("@#{service.interface_name}", service.new)
-      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_new)
     end
 
     def show
       instance_variable_set("@#{service.interface_name}", service.show(params))
-      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_show)
     end
 
     def edit
       instance_variable_set("@#{service.interface_name}", service.show(params))
-      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_edit)
     end
 
     def create
       instance_variable_set("@#{service.interface_name}", service.create(params))
-      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_create)
     end
 
     def update
       instance_variable_set("@#{service.interface_name}", service.update(params))
-      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_update)
     end
 
     def destroy
       instance_variable_set("@#{service.interface_name}", service.destroy(params))
-      respond_with(instance_variable_get("@#{service.interface_name}"), service.options)
+      respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_destroy)
     end
   end
 end

@@ -1,4 +1,10 @@
 class User
+  attr_reader :updated, :destroyed
+  def initialize
+    @updated = false
+    @destroyed = false
+  end
+
   def self.all
     [new, new]
   end
@@ -12,10 +18,12 @@ class User
   end
 
   def update_attributes(params)
+    @updated = true
     true
   end
 
   def destroy
+    @destroyed = true
     true
   end
 end
