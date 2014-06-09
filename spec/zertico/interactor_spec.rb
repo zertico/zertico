@@ -15,6 +15,28 @@ describe Zertico::Interactor do
     end
   end
 
+  describe '#inject_instances' do
+    before :each do
+      interactor.inject_instances({ 'a' => 'B' })
+    end
+
+    it 'should create instances based on a hash' do
+      interactor.instance_variable_get('@a').should == 'B'
+    end
+  end
+
+  describe '#get_instances' do
+    before :each do
+      interactor.instance_variable_set('@a', 'A')
+      interactor.instance_variable_set('@b', 'B')
+      interactor.instance_variable_set('@z', 'Z')
+    end
+
+    it 'should return a hash with all instance variables name and value' do
+      interactor.get_instances.should == { 'a' => 'A', 'b' => 'B', 'z' => 'Z' }
+    end
+  end
+
   describe '.interface_name' do
     it 'should return the interface name' do
       Zertico::Interactor.interface_name.should == 'Zertico'
