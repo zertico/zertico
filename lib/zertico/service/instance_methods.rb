@@ -52,7 +52,7 @@ module Zertico
 
       def interface_name
         return self.class.interface_name if self.class.interface_name
-        self.interface_class.name.singularize.underscore
+        interface_class.name.singularize.underscore
       end
 
       def interface_class
