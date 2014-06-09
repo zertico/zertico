@@ -1,23 +1,19 @@
 module Zertico
   module Organizer
-    attr_reader :interactors_classes, :objects, :performed
+    attr_reader :interactors_classes, :instances, :performed
 
     def organize(interactors)
-      @performed = []
-      @objects = {}
       @interactors_classes = Array(interactors)
+      @performed = []
+      @instances = {}
     end
 
     def perform(params)
       interactors_classes.each do |interactor_class|
         interactor = interactor_class.new
-        objects.each do |instance_name, instance_variable|
-          interactor.instance_variable_set(instance_name, instance_variable)
-        end
+        interactor.inject_instances(instances)
         interactor.perform(params)
-        interactor.instance_variables.each do |instance_variable|
-          objects.merge!({ instance_variable => interactor.instance_variable_get(instance_variable) })
-        end
+        instances.merge!(interactor.get_instances)
         performed << interactor
       end
       true
@@ -26,7 +22,7 @@ module Zertico
     end
 
     def rollback
-      performed.map(&:rollback)
+      performed.reverse.map(&:rollback)
     end
   end
 end
