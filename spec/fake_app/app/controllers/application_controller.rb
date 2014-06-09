@@ -3,5 +3,5 @@ class ApplicationController < Zertico::Controller
 
   respond_to :html
 
-  def render(attributes); end
+  def render(attributes = {}); end
 end

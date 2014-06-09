@@ -88,7 +88,7 @@ describe UsersController, :type => :controller do
       delete :destroy, :id => 1
     end
 
-    it 'should create a new user' do
+    it 'should destroy the user' do
       assigns(:user).should == user
     end
   end
