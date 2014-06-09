@@ -8,7 +8,7 @@ describe UsersController, :type => :controller do
   let(:user) { User.new }
 
   before :each do
-    User.stub(new: user)
+    User.stub(:new => user)
   end
 
   context 'without a custom service' do

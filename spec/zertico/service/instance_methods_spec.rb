@@ -9,7 +9,7 @@ describe Zertico::Service do
   let(:user) { User.new }
 
   before :each do
-    User.stub(new: user)
+    User.stub(:new => user)
   end
 
   describe '#index' do
