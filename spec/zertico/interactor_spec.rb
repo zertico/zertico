@@ -5,7 +5,7 @@ describe Zertico::Interactor do
 
   describe '#perform' do
     it 'should raise a rollback exception' do
-      expect { interactor.perform({}, []) }.to raise_error
+      expect { interactor.perform({}) }.to raise_error
     end
   end
 

@@ -1,5 +1,5 @@
 class SendWelcomeEmailInteractor < Zertico::Interactor
-  def perform(attributes, objects)
+  def perform(attributes)
     fail!
   end
 end

@@ -1,5 +1,5 @@
 class CreateUserInteractor < Zertico::Interactor
-  def perform(attributes, objects)
+  def perform(attributes)
     @user = User.create(attributes)
   end
 

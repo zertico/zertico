@@ -1,5 +1,5 @@
 class CreateProductInteractor < Zertico::Interactor
-  def perform(attributes, objects)
+  def perform(attributes)
     @product = Product.create(attributes)
   end
 
