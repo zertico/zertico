@@ -2,7 +2,7 @@
 
 ## master
 
-* Refactored Service to be a class instead of module. Added api to work instead of overwrite methods.
+* Changed Service to class. Exposed api methods to use instead of overwrite methods.
 * Fixed some bugs.
 * Improved Delegator, Interactor, Organizer.
 
@@ -32,7 +32,7 @@
 * Fixed Service instance variable name conflict with Rails one.
 * Improved Accessor logic.
 * Allowing full customization of Responder initialization params from Service.
-* Created Responder to force redirects and selt flash messages.
+* Created Responder to force redirects and flash messages.
 
 ## v0.6.1
 
