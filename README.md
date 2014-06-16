@@ -178,8 +178,6 @@ The `Interactor` and `Organizer` idea was taken from [interactor](https://github
 
 [@plribeiro3000](https://github.com/plribeiro3000)
 
-[@mfbmina](https://github.com/mfbmina)
-
 [@silviolrjunior](https://github.com/silviolrjunior)
 
 ## Contributing
