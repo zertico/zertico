@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/zertico/zertico.png?label=ready&title=Ready)](https://waffle.io/zertico/zertico)
 # Zertico
 
 [![Gem Version](https://badge.fury.io/rb/zertico.svg)](http://badge.fury.io/rb/zertico) [![Build Status](https://travis-ci.org/zertico/zertico.svg?branch=master)](https://travis-ci.org/zertico/zertico) [![Dependency Status](https://gemnasium.com/zertico/zertico.svg)](https://gemnasium.com/zertico/zertico) [![Coverage Status](https://img.shields.io/coveralls/zertico/zertico.svg?branch=master)](https://coveralls.io/r/zertico/zertico?branch=master) [![Code Climate](https://codeclimate.com/github/zertico/zertico.png)](https://codeclimate.com/github/zertico/zertico)
