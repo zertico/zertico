@@ -3,5 +3,5 @@ class ApplicationController < Zertico::Controller
 
   respond_to :html
 
-  def render(attributes = {}); end
+  prepend_view_path 'spec/fake_app/app/views'
 end

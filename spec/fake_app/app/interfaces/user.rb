@@ -1,8 +1,10 @@
-class User
+class User < ActiveRecord::Base
   attr_reader :updated, :destroyed
+
   def initialize
     @updated = false
     @destroyed = false
+    super
   end
 
   def self.all
