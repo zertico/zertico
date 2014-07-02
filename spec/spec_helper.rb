@@ -8,7 +8,7 @@ SimpleCov.start do
   add_filter "#{File.dirname(__FILE__)}/fake_app"
 end
 
-ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':memory:')
 ActiveRecord::Migration.create_table :users
 
 Coveralls.wear!
