@@ -30,6 +30,7 @@ describe UsersResponder, :type => :controller do
 
     context 'from pjax' do
       before :each do
+        request.env['X-PJAX'] = 'true' # For Rails 3.2
         request.headers['X-PJAX'] = 'true'
         get :index
       end
@@ -61,6 +62,7 @@ describe UsersResponder, :type => :controller do
 
     context 'from pjax' do
       before :each do
+        request.env['X-PJAX'] = 'true' # For Rails 3.2
         request.headers['X-PJAX'] = 'true'
         get :new
       end
@@ -92,6 +94,7 @@ describe UsersResponder, :type => :controller do
 
     context 'from pjax' do
       before :each do
+        request.env['X-PJAX'] = 'true' # For Rails 3.2
         request.headers['X-PJAX'] = 'true'
         get :show, :id => 1
       end
@@ -123,6 +126,7 @@ describe UsersResponder, :type => :controller do
 
     context 'from pjax' do
       before :each do
+        request.env['X-PJAX'] = 'true' # For Rails 3.2
         request.headers['X-PJAX'] = 'true'
         get :edit, :id => 1
       end
