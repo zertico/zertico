@@ -1,20 +1,23 @@
-Style/LineLength:
-  Enabled: false
-
-Style/TrailingBlankLines:
-  Enabled: false
-
-Style/TrailingWhitespace:
-  Enabled: false
-
-Style/InlineComment:
-  Description: 'Avoid inline comments.'
+MethodCalledOnDoEndBlock:
   Enabled: true
 
-Style/MethodCalledOnDoEndBlock:
-  Description: 'Avoid chaining a method call on a do...end block.'
+HashSyntax:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+SpaceInsideBrackets:
+  Enabled: false
+
+SymbolArray:
   Enabled: true
 
-Style/SymbolArray:
-  Description: 'Use %i or %I for arrays of symbols.'
-  Enabled: true
+TrailingBlankLines:
+  Enabled: false
+
+TrailingWhitespace:
+  Enabled: false
