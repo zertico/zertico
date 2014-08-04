@@ -1,6 +1,11 @@
-begin 
-  require 'action_controller/parameters'
+begin
+  if Rails.version >= '4'
+    require 'action_controller/metal/strong_parameters'
+  else
+    require 'action_controller/parameters'
+  end
 rescue LoadError
+  raise Zertico::Exceptions::MissingStrongParameters
 end
 
 module Zertico
