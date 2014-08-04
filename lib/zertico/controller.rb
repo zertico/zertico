@@ -33,15 +33,13 @@ module Zertico
     end
 
     def create
-      permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params).create rescue nil
-      permitted_params ||= params
+      permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params).create rescue params
       instance_variable_set("@#{service.interface_name}", service.create(permitted_params))
       respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_create)
     end
 
     def update
-      permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params).update rescue nil
-      permitted_params ||= params
+      permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params).update rescue params
       instance_variable_set("@#{service.interface_name}", service.update(permitted_params))
       respond_with(instance_variable_get("@#{service.interface_name}"), service.responder_settings_for_update)
     end

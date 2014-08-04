@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Zertico::PermittedParams do
   let(:user) { User.new }
-  let(:params) { ActionController::Parameters.new({ :user => { :id => 1, :name => "name" } }) }
+  let(:params) { ActionController::Parameters.new(:user => { :id => 1, :name => "name" }) }
   let(:user_permitted_params) { UsersPermittedParams.new(params) }
 
   describe '#create' do
