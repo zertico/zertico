@@ -1,23 +1,17 @@
 MethodCalledOnDoEndBlock:
   Enabled: true
 
-HashSyntax:
+Metrics/LineLength:
+  Max: 100
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/TrailingWhitespace:
   Enabled: false
 
-LineLength:
+Style/SpaceInsideBrackets:
   Enabled: false
 
-SingleSpaceBeforeFirstArg:
-  Enabled: false
-
-SpaceInsideBrackets:
-  Enabled: false
-
-SymbolArray:
+Style/SymbolArray:
   Enabled: true
-
-TrailingBlankLines:
-  Enabled: false
-
-TrailingWhitespace:
-  Enabled: false
