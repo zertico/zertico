@@ -8,6 +8,7 @@ module Zertico
   autoload :Exceptions, 'zertico/exceptions'
   autoload :Interactor, 'zertico/interactor'
   autoload :Organizer, 'zertico/organizer'
+  autoload :PermittedParams, 'zertico/permitted_params'
   autoload :Responder, 'zertico/responder'
   autoload :Service, 'zertico/service'
 end

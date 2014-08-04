@@ -140,7 +140,7 @@ describe UsersResponder, :type => :controller do
   describe '#create' do
     context 'when successfull saving' do
       before :each do
-        post :create
+        post :create, :user => { :name => 'name' }
       end
 
       it 'should have an HTTP status :found' do
@@ -156,7 +156,7 @@ describe UsersResponder, :type => :controller do
       before :each do
         User.stub(:create => user)
         user.stub(:errors => ['asd'])
-        post :create
+        post :create, :user => { :name => 'name' }
       end
 
       it 'should have an HTTP status :ok' do
@@ -172,7 +172,7 @@ describe UsersResponder, :type => :controller do
   describe '#update' do
     context 'when successfull updating' do
       before :each do
-        put :update, :id => 1
+        put :update, :id => 1, :user => { :name => 'name' }
       end
 
       it 'should have an HTTP status :found' do
@@ -188,7 +188,7 @@ describe UsersResponder, :type => :controller do
       before :each do
         User.stub(:find => user)
         user.stub(:errors => ['asd'])
-        put :update, :id => 1
+        put :update, :id => 1, :user => { :name => 'name' }
       end
 
       it 'should have an HTTP status :ok' do

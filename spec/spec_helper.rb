@@ -1,17 +1,20 @@
 require 'rspec'
-require 'simplecov'
-require 'coveralls'
 require 'active_record'
-
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-SimpleCov.start do
-  add_filter "#{File.dirname(__FILE__)}/fake_app"
-end
 
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':memory:')
 ActiveRecord::Migration.create_table :users
 
-Coveralls.wear!
+if ENV['COVERAGE']
+  require 'simplecov'
+  require 'coveralls'
+
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  SimpleCov.start do
+    add_filter "#{File.dirname(__FILE__)}/fake_app"
+  end
+
+  Coveralls.wear!
+end
 
 require "#{File.dirname(__FILE__)}/../lib/zertico"
 

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   attr_reader :updated, :destroyed
+  attr_accessor :name, :id
 
   def initialize
     @updated = false
