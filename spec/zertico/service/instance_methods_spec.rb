@@ -9,12 +9,12 @@ describe Zertico::Service do
   let(:user) { User.new }
 
   before :each do
-    User.stub(:new => user)
+    allow(User).to receive_messages(:new => user)
   end
 
   describe '#index' do
     it 'should return a collection of users' do
-      users_service.index.should == [user, user]
+      expect(users_service.index).to eq([user, user])
     end
 
     before :each do
@@ -22,13 +22,13 @@ describe Zertico::Service do
     end
 
     it 'should save the collection in an instance variable' do
-      users_service.users.should == [user, user]
+      expect(users_service.users).to eq([user, user])
     end
   end
 
   describe '#new' do
     it 'should return a new user' do
-      users_service.new.should == user
+      expect(users_service.new).to eq(user)
     end
 
     before :each do
@@ -36,13 +36,13 @@ describe Zertico::Service do
     end
 
     it 'should save the user in an instance variable' do
-      users_service.user.should == user
+      expect(users_service.user).to eq(user)
     end
   end
 
   describe '#show' do
     it 'should search for an user' do
-      users_service.show({ :id => 1 }).should == user
+      expect(users_service.show({ :id => 1 })).to eq(user)
     end
 
     before :each do
@@ -50,13 +50,13 @@ describe Zertico::Service do
     end
 
     it 'should save the user found in an instance variable' do
-      users_service.user.should == user
+      expect(users_service.user).to eq(user)
     end
   end
 
   describe '#create' do
     it 'should search for an user' do
-      users_service.create({ :user => {} }).should == user
+      expect(users_service.create({ :user => {} })).to eq(user)
     end
 
     before :each do
@@ -64,13 +64,13 @@ describe Zertico::Service do
     end
 
     it 'should save the created user in an instance variable' do
-      users_service.user.should == user
+      expect(users_service.user).to eq(user)
     end
   end
 
   describe '#update' do
     it 'should search for an user' do
-      users_service.update({ :id => 1, :user => {} }).should == user
+      expect(users_service.update({ :id => 1, :user => {} })).to eq(user)
     end
 
     before :each do
@@ -78,17 +78,17 @@ describe Zertico::Service do
     end
 
     it 'should update the user' do
-      users_service.user.updated.should == true
+      expect(users_service.user.updated).to eq(true)
     end
 
     it 'should save the updated user in an instance variable' do
-      users_service.user.should == user
+      expect(users_service.user).to eq(user)
     end
   end
 
   describe '#destroy' do
     it 'should search for an user' do
-      users_service.destroy({ :id => 1 }).should == user
+      expect(users_service.destroy({ :id => 1 })).to eq(user)
     end
 
     before :each do
@@ -96,18 +96,18 @@ describe Zertico::Service do
     end
 
     it 'should destroy the user' do
-      users_service.user.destroyed.should == true
+      expect(users_service.user.destroyed).to eq(true)
     end
 
     it 'should save the destroyed user in an instance variable' do
-      users_service.user.should == user
+      expect(users_service.user).to eq(user)
     end
   end
 
   %w(index new edit create update show destroy).each do |method_name|
     describe "#responder_settings_for_#{method_name}" do
       it "should return the responder settings for #{method_name} action" do
-        users_service.send("responder_settings_for_#{method_name}").should == {}
+        expect(users_service.send("responder_settings_for_#{method_name}")).to eq({})
       end
     end
   end
@@ -115,7 +115,7 @@ describe Zertico::Service do
   describe '#resource_source' do
     context 'without a custom resource defined on class' do
       it 'should return it!' do
-        users_service.resource_source.should == User
+        expect(users_service.resource_source).to eq(User)
       end
     end
 
@@ -125,7 +125,7 @@ describe Zertico::Service do
       end
 
       it 'should return it!' do
-        users_service.resource_source.should == Person::Profile
+        expect(users_service.resource_source).to eq(Person::Profile)
       end
     end
   end
@@ -133,31 +133,31 @@ describe Zertico::Service do
   describe '#interface_id' do
     context 'on a pluralized service' do
       it 'should return id' do
-        users_service.send(:interface_id).should == 'id'
+        expect(users_service.send(:interface_id)).to eq('id')
       end
     end
 
     context 'on a namespaced service and interface model' do
       it 'should return id with the model name' do
-        profile_service.send(:interface_id).should == 'person_profile_id'
+        expect(profile_service.send(:interface_id)).to eq('person_profile_id')
       end
     end
 
     context 'on a namespaced service and non namespaced interface model' do
       it 'should return id with the model name' do
-        admin_service.send(:interface_id).should == 'user_id'
+        expect(admin_service.send(:interface_id)).to eq('user_id')
       end
     end
 
     context 'on a non namespaced service and non namespaced interface model' do
       it 'should return id' do
-        users_service.send(:interface_id).should == 'id'
+        expect(users_service.send(:interface_id)).to eq('id')
       end
     end
 
     context 'on a namespaced service and an undefined interface model' do
       it 'should return id' do
-        gifts_service.send(:interface_id).should == 'id'
+        expect(gifts_service.send(:interface_id)).to eq('id')
       end
     end
 
@@ -167,14 +167,14 @@ describe Zertico::Service do
       end
 
       it 'should return the defined value' do
-        gifts_service.send(:interface_id).should == 'abc'
+        expect(gifts_service.send(:interface_id)).to eq('abc')
       end
     end
   end
 
   describe '#interface_name' do
     it 'should return the interface name' do
-      users_service.send(:interface_name).should == 'user'
+      expect(users_service.send(:interface_name)).to eq('user')
     end
 
     context 'when defined on class' do
@@ -183,7 +183,7 @@ describe Zertico::Service do
       end
 
       it 'should return the defined value' do
-        gifts_service.send(:interface_name).should == 'abc'
+        expect(gifts_service.send(:interface_name)).to eq('abc')
       end
     end
   end
@@ -191,25 +191,25 @@ describe Zertico::Service do
   describe '#interface_class' do
     context 'on a pluralized service' do
       it 'should find the interface model' do
-        users_service.send(:interface_class).should == User
+        expect(users_service.send(:interface_class)).to eq(User)
       end
     end
 
     context 'on a namespaced service and interface model' do
       it 'should find the interface model' do
-        profile_service.send(:interface_class).should == Person::Profile
+        expect(profile_service.send(:interface_class)).to eq(Person::Profile)
       end
     end
 
     context 'on a namespaced service and non namespaced interface model' do
       it 'should find the interface model' do
-        admin_service.send(:interface_class).should == User
+        expect(admin_service.send(:interface_class)).to eq(User)
       end
     end
 
     context 'on a non namespaced service and non namespaced interface model' do
       it 'should find the interface model' do
-        users_service.send(:interface_class).should == User
+        expect(users_service.send(:interface_class)).to eq(User)
       end
     end
 
@@ -219,7 +219,7 @@ describe Zertico::Service do
       end
 
       it 'should return the defined value' do
-        gifts_service.send(:interface_class).should == User
+        expect(gifts_service.send(:interface_class)).to eq(User)
       end
     end
   end

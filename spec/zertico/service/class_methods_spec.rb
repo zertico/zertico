@@ -7,30 +7,30 @@ describe Zertico::Service do
 
   describe '.use_as_id' do
     it 'should define the id name' do
-      service_class.interface_id.should == 'great_id'
+      expect(service_class.interface_id).to eq('great_id')
     end
   end
 
   describe '.use_as_variable_name' do
     it 'should define the variable name' do
-      service_class.interface_name.should == 'great_name'
+      expect(service_class.interface_name).to eq('great_name')
     end
   end
 
   describe '.use_interface' do
     it 'should define the interface' do
-      service_class.interface_class.should == Product
+      expect(service_class.interface_class).to eq(Product)
     end
   end
 
   describe '#resource_source=' do
     before :each do
-      User.stub(:all => [ user ])
+      allow(User).to receive_messages(:all => [ user ])
       service_class.resource_source = %w(User all)
     end
 
     it 'should set the resource' do
-      service.resource_source.should == [ user ]
+      expect(service.resource_source).to eq([ user ])
     end
   end
 end

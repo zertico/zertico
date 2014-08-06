@@ -154,8 +154,8 @@ describe UsersResponder, :type => :controller do
 
     context 'when fail to save' do
       before :each do
-        User.stub(:create => user)
-        user.stub(:errors => ['asd'])
+        allow(User).to receive_messages(:create => user)
+        allow(user).to receive_messages(:errors => ['asd'])
         post :create, :user => { :name => 'name' }
       end
 
@@ -186,8 +186,8 @@ describe UsersResponder, :type => :controller do
 
     context 'when fail to save' do
       before :each do
-        User.stub(:find => user)
-        user.stub(:errors => ['asd'])
+        allow(User).to receive_messages(:find => user)
+        allow(user).to receive_messages(:errors => ['asd'])
         put :update, :id => 1, :user => { :name => 'name' }
       end
 

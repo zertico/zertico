@@ -10,11 +10,11 @@ describe UsersController, :type => :controller do
     end
 
     it 'should initialize a collection of users' do
-      assigns(:users).should be_an_instance_of(Array)
+      expect(assigns(:users)).to be_an_instance_of(Array)
     end
 
     it 'should initialize a collection with two itens' do
-      assigns(:users).size.should be_equal 2
+      expect(assigns(:users).size).to be_equal 2
     end
   end
 
@@ -24,7 +24,7 @@ describe UsersController, :type => :controller do
     end
 
     it 'should initialize an user' do
-      assigns(:user).should be_an_instance_of(User)
+      expect(assigns(:user)).to be_an_instance_of(User)
     end
   end
 
@@ -34,7 +34,7 @@ describe UsersController, :type => :controller do
     end
 
     it 'should find and initialize an user' do
-      assigns(:user).should be_an_instance_of(User)
+      expect(assigns(:user)).to be_an_instance_of(User)
     end
   end
 
@@ -44,7 +44,7 @@ describe UsersController, :type => :controller do
     end
 
     it 'should find and initialize an user' do
-      assigns(:user).should be_an_instance_of(User)
+      expect(assigns(:user)).to be_an_instance_of(User)
     end
   end
 
@@ -54,7 +54,7 @@ describe UsersController, :type => :controller do
     end
 
     it 'should create a new user' do
-      assigns(:user).should be_an_instance_of(User)
+      expect(assigns(:user)).to be_an_instance_of(User)
     end
   end
 
@@ -64,7 +64,7 @@ describe UsersController, :type => :controller do
     end
 
     it 'should update an user' do
-      assigns(:user).should be_an_instance_of(User)
+      expect(assigns(:user)).to be_an_instance_of(User)
     end
   end
 
@@ -74,7 +74,7 @@ describe UsersController, :type => :controller do
     end
 
     it 'should destroy the user' do
-      assigns(:user).should be_an_instance_of(User)
+      expect(assigns(:user)).to be_an_instance_of(User)
     end
   end
 end

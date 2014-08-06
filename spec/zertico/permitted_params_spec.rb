@@ -7,19 +7,19 @@ describe Zertico::PermittedParams do
 
   describe '#create' do
     it "should ignore the id" do
-      user_permitted_params.create.should == { 'name' => 'name' }
+      expect(user_permitted_params.create).to eq({ 'name' => 'name' })
     end
   end
 
   describe '#update' do
     it "should ignore the name" do
-      user_permitted_params.update.should == { 'id' => 1 }
+      expect(user_permitted_params.update).to eq({ 'id' => 1 })
     end
   end
 
   describe '.interface_class' do
     it 'should return the interface singular name ' do
-      UsersPermittedParams.interface_class.should == User
+      expect(UsersPermittedParams.interface_class).to eq(User)
     end
   end
 end

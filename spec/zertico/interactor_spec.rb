@@ -11,7 +11,7 @@ describe Zertico::Interactor do
 
   describe '#rollback' do
     it 'should return true' do
-      interactor.rollback.should == true
+      expect(interactor.rollback).to eq(true)
     end
   end
 
@@ -21,7 +21,7 @@ describe Zertico::Interactor do
     end
 
     it 'should create instances based on a hash' do
-      interactor.instance_variable_get('@a').should == 'B'
+      expect(interactor.instance_variable_get('@a')).to eq('B')
     end
   end
 
@@ -33,13 +33,13 @@ describe Zertico::Interactor do
     end
 
     it 'should return a hash with all instance variables name and value' do
-      interactor.get_instances.should == { 'a' => 'A', 'b' => 'B', 'z' => 'Z' }
+      expect(interactor.get_instances).to eq({ 'a' => 'A', 'b' => 'B', 'z' => 'Z' })
     end
   end
 
   describe '.interface_name' do
     it 'should return the interface name' do
-      Zertico::Interactor.interface_name.should == 'Zertico'
+      expect(Zertico::Interactor.interface_name).to eq('Zertico')
     end
   end
 

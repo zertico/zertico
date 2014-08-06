@@ -8,13 +8,13 @@ describe Zertico::Controller do
 
   context 'without a custom service' do
     it 'should initialize Zertico::Service' do
-      zertico_controller.service.should be_an_instance_of(Zertico::Service)
+      expect(zertico_controller.service).to be_an_instance_of(Zertico::Service)
     end
   end
 
   context 'with a custom service' do
     it 'should initialize it!' do
-      controller.service.should be_an_instance_of(UsersService)
+      expect(controller.service).to be_an_instance_of(UsersService)
     end
   end
 end
