@@ -53,6 +53,11 @@ describe UsersController, :type => :controller do
       post :create, :user => { :name => 'name' }
     end
 
+    it 'should pass the right parameters to the model' do
+      expect(User).to receive(:create).with(:name => 'name').and_return(user)
+      post :create, :user => { :name => 'name' }
+    end
+
     it 'should create a new user' do
       expect(assigns(:user)).to be_an_instance_of(User)
     end
@@ -60,7 +65,13 @@ describe UsersController, :type => :controller do
 
   context '#update' do
     before :each do
-      put :update, :id => 1, :user => { :name => 'name' }
+      put :update, :id => 1, :user => { :id => 23 }
+    end
+
+    it 'should pass the right parameters to the model' do
+      allow(User).to receive(:find).and_return(user)
+      expect(user).to receive(:update_attributes).with('id' => '23').and_return(true)
+      put :update, :id => 1, :user => { :id => 23 }
     end
 
     it 'should update an user' do
