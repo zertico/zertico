@@ -32,7 +32,7 @@ The `Zertico::Controller` define behavior of a common Rails Controller. By Exten
 All you need to do is extend ith with you `ApplicationController` and you will get the benefit of it.     
       
 ```ruby
-class ApplicationController < ZerticoController
+class ApplicationController < Zertico::Controller
     respond_to :html
 end
 ```  
