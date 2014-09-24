@@ -8,6 +8,8 @@ module Zertico
     class << self
       include Rails.application.routes.url_helpers
 
+      def default_url_options; {} end
+
       %w(index new edit create update show destroy).each do |method_name|
         define_method("#{method_name}_options=") do |options|
           instance_variable_set("@#{method_name}_options", options)
