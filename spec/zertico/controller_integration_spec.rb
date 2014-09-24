@@ -65,11 +65,12 @@ describe UsersController, :type => :controller do
 
   context '#update' do
     before :each do
+      allow(User).to receive(:find).and_return(user)
+      allow(user).to receive(:id).and_return(3)
       put :update, :id => 1, :user => { :id => 23 }
     end
 
     it 'should pass the right parameters to the model' do
-      allow(User).to receive(:find).and_return(user)
       expect(user).to receive(:update_attributes).with('id' => '23').and_return(true)
       put :update, :id => 1, :user => { :id => 23 }
     end

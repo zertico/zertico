@@ -1,40 +1,23 @@
+require 'action_controller/metal/responder'
+
 module Zertico
-  module Responder
-    def initialize(controller, resources, options={})
-      super
-      @force_redirect = options.delete(:force_redirect)
-    end
+  class Responder < ActionController::Responder
+    autoload :ForceRedirect, 'zertico/responder/force_redirect'
+    autoload :Pjax, 'zertico/responder/pjax'
 
-    protected
+    class << self
+      include Rails.application.routes.url_helpers
 
-    def default_render
-      if request.headers['X-PJAX']
-        render :layout => false
-      else
-        super
-      end
-    end
-
-    def navigation_behavior(error)
-      if get?
-        raise error
-      elsif has_errors? && default_action
-        if @force_redirect
-          controller.flash.keep
-          redirect_to navigation_location
-        else
-          controller.flash.clear
-          render :action => default_action
+      %w(index new edit create update show destroy).each do |method_name|
+        define_method("#{method_name}_options=") do |options|
+          instance_variable_set("@#{method_name}_options", options)
         end
-      else
-        controller.flash.keep
-        redirect_to navigation_location
-      end
-    end
 
-    def set_flash_message?
-      return @force_redirect unless @force_redirect.nil?
-      super
+        define_method("#{method_name}_options") do |controller|
+          return {} unless instance_variable_defined?("@#{method_name}_options")
+          instance_variable_get("@#{method_name}_options").call(controller)
+        end
+      end
     end
   end
 end

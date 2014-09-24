@@ -104,14 +104,6 @@ describe Zertico::Service do
     end
   end
 
-  %w(index new edit create update show destroy).each do |method_name|
-    describe "#responder_settings_for_#{method_name}" do
-      it "should return the responder settings for #{method_name} action" do
-        expect(users_service.send("responder_settings_for_#{method_name}")).to eq({})
-      end
-    end
-  end
-
   describe '#resource_source' do
     context 'without a custom resource defined on class' do
       it 'should return it!' do

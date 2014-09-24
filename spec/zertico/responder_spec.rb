@@ -172,6 +172,8 @@ describe UsersResponder, :type => :controller do
   describe '#update' do
     context 'when successfull updating' do
       before :each do
+        allow(User).to receive_messages(:find => user)
+        allow(user).to receive_messages(:id => 3)
         put :update, :id => 1, :user => { :name => 'name' }
       end
 
@@ -179,14 +181,15 @@ describe UsersResponder, :type => :controller do
         expect(response).to have_http_status(:found)
       end
 
-      it 'should redirect to #index' do
-        expect(response).to redirect_to(:action => :index)
+      it 'should redirect to #show' do
+        expect(response).to redirect_to(:action => :show, :id => 3)
       end
     end
 
     context 'when fail to save' do
       before :each do
         allow(User).to receive_messages(:find => user)
+        allow(user).to receive_messages(:id => 3)
         allow(user).to receive_messages(:errors => ['asd'])
         put :update, :id => 1, :user => { :name => 'name' }
       end
@@ -212,6 +215,20 @@ describe UsersResponder, :type => :controller do
 
     it 'should render template edit' do
       expect(response).to redirect_to(:action => :index)
+    end
+  end
+
+  %w(index new edit create show destroy).each do |method_name|
+    describe "##{method_name}_options=" do
+      it "should set an hash of options for #{method_name} action" do
+        expect(controller.responder.send("#{method_name}_options", controller)).to eq({})
+      end
+    end
+
+    describe "##{method_name}_options" do
+      it "should return a hash of options for #{method_name} action" do
+        expect(controller.responder.send("#{method_name}_options", controller)).to eq({})
+      end
     end
   end
 end

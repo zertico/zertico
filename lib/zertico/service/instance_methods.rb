@@ -29,12 +29,6 @@ module Zertico
         instance_variable_get("@#{interface_name}")
       end
 
-      %w(index new edit create update show destroy).each do |method_name|
-        define_method("responder_settings_for_#{method_name}") do
-          {}
-        end
-      end
-
       def resource_source
         self.class.resource_source || interface_class
       end

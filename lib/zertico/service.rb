@@ -5,6 +5,5 @@ module Zertico
 
     extend ClassMethods
     include InstanceMethods
-    include Rails.application.routes.url_helpers
   end
 end
