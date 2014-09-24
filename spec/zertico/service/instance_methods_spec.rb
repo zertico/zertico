@@ -9,7 +9,7 @@ describe Zertico::Service do
   let(:user) { User.new }
 
   before :each do
-    allow(User).to receive_messages(:new => user)
+    allow(User).to receive(:new).and_return(user)
   end
 
   describe '#index' do

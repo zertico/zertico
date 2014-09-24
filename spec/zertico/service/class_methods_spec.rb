@@ -25,7 +25,7 @@ describe Zertico::Service do
 
   describe '#resource_source=' do
     before :each do
-      allow(User).to receive_messages(:all => [ user ])
+      allow(User).to receive(:all).and_return([ user ])
       service_class.resource_source = %w(User all)
     end
 

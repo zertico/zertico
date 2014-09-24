@@ -51,7 +51,7 @@ describe Zertico::Delegator do
 
   describe '.find' do
     before :each do
-      allow(User).to receive_messages(:find => user)
+      allow(User).to receive(:find).and_return(user)
     end
 
     it 'should return an delegator' do
@@ -61,7 +61,7 @@ describe Zertico::Delegator do
 
   describe '#interface' do
     before :each do
-      allow(User).to receive_messages(:find => user)
+      allow(User).to receive(:find).and_return(user)
     end
 
     it 'should return the interface object' do

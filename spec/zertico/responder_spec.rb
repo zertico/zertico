@@ -154,8 +154,8 @@ describe UsersResponder, :type => :controller do
 
     context 'when fail to save' do
       before :each do
-        allow(User).to receive_messages(:create => user)
-        allow(user).to receive_messages(:errors => ['asd'])
+        allow(User).to receive(:create).and_return(user)
+        allow(user).to receive(:errors).and_return(['asd'])
         post :create, :user => { :name => 'name' }
       end
 
@@ -172,8 +172,8 @@ describe UsersResponder, :type => :controller do
   describe '#update' do
     context 'when successfull updating' do
       before :each do
-        allow(User).to receive_messages(:find => user)
-        allow(user).to receive_messages(:id => 3)
+        allow(User).to receive(:find).and_return(user)
+        allow(user).to receive(:id).and_return(3)
         put :update, :id => 1, :user => { :name => 'name' }
       end
 
@@ -188,9 +188,9 @@ describe UsersResponder, :type => :controller do
 
     context 'when fail to save' do
       before :each do
-        allow(User).to receive_messages(:find => user)
-        allow(user).to receive_messages(:id => 3)
-        allow(user).to receive_messages(:errors => ['asd'])
+        allow(User).to receive(:find).and_return(user)
+        allow(user).to receive(:id).and_return(3)
+        allow(user).to receive(:errors).and_return(['asd'])
         put :update, :id => 1, :user => { :name => 'name' }
       end
 
