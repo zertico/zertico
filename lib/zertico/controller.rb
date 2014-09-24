@@ -5,12 +5,8 @@ module Zertico
     attr_reader :service
 
     def initialize
-      @service = Zertico::Service.new
-      custom_service_name = "::#{self.class.name.gsub('Controller', 'Service')}"
-      @service = custom_service_name.constantize.new if defined?(custom_service_name)
-      self.class.responder = Zertico::Responder
-      custom_responder_name = "::#{self.class.name.gsub('Controller', 'Responder')}"
-      self.class.responder = custom_responder_name.constantize if defined?(custom_responder_name)
+      initialize_service
+      set_responder
       super
     end
 
@@ -49,6 +45,20 @@ module Zertico
     def destroy
       instance_variable_set("@#{service.interface_name}", service.destroy(params))
       respond_with(instance_variable_get("@#{service.interface_name}"), responder.destroy_options(self))
+    end
+
+    private
+
+    def initialize_service
+      @service = "::#{self.class.name.gsub('Controller', 'Service')}".constantize.new
+    rescue NameError
+      @service = Zertico::Service.new
+    end
+
+    def set_responder
+      self.class.responder = "::#{self.class.name.gsub('Controller', 'Responder')}".constantize
+    rescue NameError
+      self.class.responder = Zertico::Responder
     end
   end
 end
