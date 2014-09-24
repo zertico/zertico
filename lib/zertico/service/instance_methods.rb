@@ -32,6 +32,29 @@ module Zertico
       def resource_source
         self.class.resource_source || interface_class
       end
+
+      def interface_class
+        return self.class.interface_class unless self.class.interface_class.nil?
+        name.chomp('Service').singularize.constantize
+      rescue NameError
+        name.chomp('Service').split('::').last.singularize.constantize
+      end
+
+      def interface_name
+        return self.class.interface_name unless self.class.interface_name.nil?
+        interface_class.name.singularize.underscore
+      end
+
+      def interface_id
+        return self.class.interface_id unless self.class.interface_id.nil?
+        if name.split('::').size > 1
+          "#{interface_name.gsub('/', '_')}_id"
+        else
+          'id'
+        end
+      rescue NameError
+        'id'
+      end
     end
   end
 end

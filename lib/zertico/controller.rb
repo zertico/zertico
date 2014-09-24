@@ -52,7 +52,7 @@ module Zertico
     def initialize_service
       @service = "::#{self.class.name.gsub('Controller', 'Service')}".constantize.new
     rescue NameError
-      @service = Zertico::Service.new
+      @service = Zertico::Service.new(self.class.name)
     end
 
     def set_responder

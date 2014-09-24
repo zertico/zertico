@@ -121,4 +121,125 @@ describe Zertico::Service do
       end
     end
   end
+
+  describe '#interface_id' do
+    context 'with a custom controller without a custom service' do
+      before :each do
+        @service = Zertico::Service.new('UserController')
+      end
+
+      it 'should return id' do
+        expect(@service.send(:interface_id)).to eq('id')
+      end
+    end
+
+    context 'on a pluralized service' do
+      it 'should return id' do
+        expect(users_service.send(:interface_id)).to eq('id')
+      end
+    end
+
+    context 'on a namespaced service and interface model' do
+      it 'should return id with the model name' do
+        expect(profile_service.send(:interface_id)).to eq('person_profile_id')
+      end
+    end
+
+    context 'on a namespaced service and non namespaced interface model' do
+      it 'should return id with the model name' do
+        expect(admin_service.send(:interface_id)).to eq('user_id')
+      end
+    end
+
+    context 'on a non namespaced service and non namespaced interface model' do
+      it 'should return id' do
+        expect(users_service.send(:interface_id)).to eq('id')
+      end
+    end
+
+    context 'when defined on class' do
+      before :each do
+        Person::GiftsService.instance_variable_set('@interface_id', 'abc')
+        @gifts_service = Person::GiftsService.new
+      end
+
+      it 'should return the defined value' do
+        expect(@gifts_service.send(:interface_id)).to eq('abc')
+      end
+    end
+  end
+
+  describe '#interface_name' do
+    context 'with a custom controller without a custom service' do
+      before :each do
+        @service = Zertico::Service.new('Person::GiftsController')
+      end
+
+      it 'should return it' do
+        expect(@service.send(:interface_name)).to eq('gift')
+      end
+    end
+
+    it 'should return the interface name' do
+      expect(users_service.send(:interface_name)).to eq('user')
+    end
+
+    context 'when defined on class' do
+      before :each do
+        Person::GiftsService.instance_variable_set('@interface_name', 'abc')
+        @gifts_service = Person::GiftsService.new
+      end
+
+      it 'should return the defined value' do
+        expect(@gifts_service.send(:interface_name)).to eq('abc')
+      end
+    end
+  end
+
+  describe '#interface_class' do
+    context 'with a custom controller without a custom service' do
+      before :each do
+        @service = Zertico::Service.new('Person::Gifts')
+      end
+
+      it 'should return it' do
+        expect(@service.send(:interface_class)).to eq(Gift)
+      end
+    end
+
+    context 'on a pluralized service' do
+      it 'should find the interface model' do
+        expect(users_service.send(:interface_class)).to eq(User)
+      end
+    end
+
+    context 'on a namespaced service and interface model' do
+      it 'should find the interface model' do
+        expect(profile_service.send(:interface_class)).to eq(Person::Profile)
+      end
+    end
+
+    context 'on a namespaced service and non namespaced interface model' do
+      it 'should find the interface model' do
+        expect(admin_service.send(:interface_class)).to eq(User)
+      end
+    end
+
+    context 'on a non namespaced service and non namespaced interface model' do
+      it 'should find the interface model' do
+        expect(users_service.send(:interface_class)).to eq(User)
+      end
+    end
+
+    context 'when defined on class' do
+      before :each do
+        Person::GiftsService.instance_variable_set('@interface_class', User)
+        @gifts_service = Person::GiftsService.new
+      end
+
+      it 'should return the defined value' do
+        expect(@gifts_service.send(:interface_class)).to eq(User)
+      end
+    end
+  end
 end
