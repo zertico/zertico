@@ -4,7 +4,7 @@ module Zertico
   class Controller < ActionController::Base
     attr_reader :service, :permitted_params
 
-    before_filter :initialize_permitted_params, :only => %i(create update)
+    before_filter :initialize_permitted_params, :only => [:create, :update]
 
     def initialize
       initialize_service
