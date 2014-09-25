@@ -7,6 +7,7 @@ module Zertico
     before_filter :initialize_permitted_params, :only => [:create, :update]
 
     def initialize
+      raise Zertico::Exceptions::MissingApplicationResponder unless defined?(ApplicationResponder)
       initialize_service
       set_responder
       super
@@ -64,7 +65,7 @@ module Zertico
     def set_responder
       self.class.responder = "::#{self.class.name.gsub('Controller', 'Responder')}".constantize
     rescue NameError
-      self.class.responder = Zertico::Responder
+      self.class.responder = ::ApplicationResponder
     end
   end
 end
