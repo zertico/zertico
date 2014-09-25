@@ -22,8 +22,8 @@ describe Zertico::PermittedParams do
 
   describe '#update' do
     context 'on a custom PermittedParams' do
-      it "should ignore the name" do
-        expect(user_permitted_params.update).to eq({ 'id' => 1 })
+      it "should accept id and a hash of attributes" do
+        expect(user_permitted_params.update).to eq("user" => { "name" => "name" })
       end
     end
 

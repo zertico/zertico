@@ -19,7 +19,7 @@ module Zertico
 
       def update(params)
         show(params)
-        instance_variable_get("@#{interface_name}").update_attributes(params)
+        instance_variable_get("@#{interface_name}").update_attributes(params[interface_name])
         instance_variable_get("@#{interface_name}")
       end
 

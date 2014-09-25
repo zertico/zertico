@@ -4,6 +4,6 @@ class UsersPermittedParams < Zertico::PermittedParams
   end
 
   def update
-    params.require(:user).permit(:id)
+    params.permit(:id, :user => [:name])
   end
 end
