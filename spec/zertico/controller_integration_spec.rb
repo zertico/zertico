@@ -54,8 +54,8 @@ describe UsersController, :type => :controller do
     end
 
     it 'should pass the right parameters to the model' do
-      expect(User).to receive(:create).with(:name => 'name').and_return(user)
-      post :create, :user => { :name => 'name' }
+      expect(User).to receive(:create).with(:first_name => 'name').and_return(user)
+      post :create, :user => { :first_name => 'name' }
     end
 
     it 'should create a new user' do
@@ -67,12 +67,12 @@ describe UsersController, :type => :controller do
     before :each do
       allow(User).to receive(:find).and_return(user)
       allow(user).to receive(:id).and_return(3)
-      put :update, :id => 1, :user => { :name => 'teste' }
+      put :update, :id => 1, :user => { :last_name => 'teste' }
     end
 
     it 'should pass the right parameters to the model' do
-      expect(user).to receive(:update_attributes).with('name' => 'teste').and_return(true)
-      put :update, :id => 1, :user => { :name => 'teste' }
+      expect(user).to receive(:update_attributes).with('last_name' => 'teste').and_return(true)
+      put :update, :id => 1, :user => { :last_name => 'teste' }
     end
 
     it 'should update an user' do

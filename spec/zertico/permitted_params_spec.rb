@@ -2,14 +2,16 @@ require 'spec_helper'
 
 describe Zertico::PermittedParams do
   let(:user) { User.new }
-  let(:params) { ActionController::Parameters.new(:user => { :id => 1, :name => "name" }) }
+  let(:params) { ActionController::Parameters.new(:id => 1,
+                                                  :user => { :first_name => "first_name",
+                                                             :last_name => "last_name" }) }
   let(:user_permitted_params) { UsersPermittedParams.new(params) }
   let(:zertico_permitted_params) { Zertico::PermittedParams.new(:zertico => { :id => 1, :name => "name" }) }
 
   describe '#create' do
     context 'on a custom PermittedParams' do
       it "should ignore the id" do
-        expect(user_permitted_params.create).to eq({ 'name' => 'name' })
+        expect(user_permitted_params.create).to eq({ 'first_name' => 'first_name' })
       end
     end
 
@@ -23,7 +25,7 @@ describe Zertico::PermittedParams do
   describe '#update' do
     context 'on a custom PermittedParams' do
       it "should accept id and a hash of attributes" do
-        expect(user_permitted_params.update).to eq("user" => { "name" => "name" })
+        expect(user_permitted_params.update).to eq({ "last_name" => "last_name" })
       end
     end
 

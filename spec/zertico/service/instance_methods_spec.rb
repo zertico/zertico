@@ -70,11 +70,11 @@ describe Zertico::Service do
 
   describe '#update' do
     it 'should search for an user' do
-      expect(users_service.update({ :id => 1, :user => {} })).to eq(user)
+      expect(users_service.update({ :user => { :id => 1, :user => {} }}, { :id => 1, :user => {} })).to eq(user)
     end
 
     before :each do
-      users_service.update({ :id => 1, :user => {} })
+      users_service.update({ :user => { :id => 1, :user => {} }}, { :id => 1, :user => {} })
     end
 
     it 'should update the user' do

@@ -38,7 +38,7 @@ module Zertico
     end
 
     def update
-      instance_variable_set("@#{service.interface_name}", service.update(permitted_params.update))
+      instance_variable_set("@#{service.interface_name}", service.update(params, permitted_params.update))
       respond_with(instance_variable_get("@#{service.interface_name}"), responder.update_options(self))
     end
 

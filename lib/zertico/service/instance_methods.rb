@@ -17,9 +17,9 @@ module Zertico
         instance_variable_set("@#{interface_name}", resource_source.create(params))
       end
 
-      def update(params)
-        show(params)
-        instance_variable_get("@#{interface_name}").update_attributes(params[interface_name])
+      def update(params, instance_params)
+        instance_variable_set("@#{interface_name}", resource_source.find(params[interface_id.to_sym]))
+        instance_variable_get("@#{interface_name}").update_attributes(instance_params)
         instance_variable_get("@#{interface_name}")
       end
 
