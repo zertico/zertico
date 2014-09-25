@@ -37,4 +37,26 @@ describe Zertico::Controller do
       expect(users_controller.responder).to be == UsersResponder
     end
   end
+
+  context 'without a custom permitted_params' do
+    before :each do
+      allow(zertico_controller).to receive(:params).and_return({})
+      zertico_controller.send(:initialize_permitted_params)
+    end
+
+    it 'should initialize Zertico::PermittedParams' do
+      expect(zertico_controller.permitted_params).to be_an_instance_of(Zertico::PermittedParams)
+    end
+  end
+
+  context 'with a custom permitted_params' do
+    before :each do
+      allow(users_controller).to receive(:params).and_return({})
+      users_controller.send(:initialize_permitted_params)
+    end
+
+    it 'should initialize it!' do
+      expect(users_controller.permitted_params).to be_an_instance_of(UsersPermittedParams)
+    end
+  end
 end

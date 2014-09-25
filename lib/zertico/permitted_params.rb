@@ -11,6 +11,14 @@ end
 module Zertico
   class PermittedParams < Delegator
     alias_method :params, :interface
+
+    def create
+      params[self.class.interface_class.name.underscore.to_sym]
+    end
+
+    def update
+      params[self.class.interface_class.name.underscore.to_sym]
+    end
     
     def self.interface_class
       name.chomp('PermittedParams').singularize.constantize

@@ -2,7 +2,9 @@ require 'action_controller'
 
 module Zertico
   class Controller < ActionController::Base
-    attr_reader :service
+    attr_reader :service, :permitted_params
+
+    before_filter :initialize_permitted_params, :only => %i(create update)
 
     def initialize
       initialize_service
@@ -31,14 +33,12 @@ module Zertico
     end
 
     def create
-      permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params).create rescue params[service.interface_name.to_sym]
-      instance_variable_set("@#{service.interface_name}", service.create(permitted_params))
+      instance_variable_set("@#{service.interface_name}", service.create(permitted_params.create))
       respond_with(instance_variable_get("@#{service.interface_name}"), responder.create_options(self))
     end
 
     def update
-      permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params).update rescue params[service.interface_name.to_sym]
-      instance_variable_set("@#{service.interface_name}", service.update(permitted_params))
+      instance_variable_set("@#{service.interface_name}", service.update(permitted_params.update))
       respond_with(instance_variable_get("@#{service.interface_name}"), responder.update_options(self))
     end
 
@@ -53,6 +53,12 @@ module Zertico
       @service = "::#{self.class.name.gsub('Controller', 'Service')}".constantize.new
     rescue NameError
       @service = Zertico::Service.new(self.class.name)
+    end
+
+    def initialize_permitted_params
+      @permitted_params = "::#{self.class.name.chomp('Controller').concat('PermittedParams')}".constantize.new(params)
+    rescue NameError
+      @permitted_params = Zertico::PermittedParams.new(params)
     end
 
     def set_responder
